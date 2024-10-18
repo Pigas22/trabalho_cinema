@@ -1,9 +1,8 @@
 package controllers;
 
 import conexion.Database;
-import models.Cinema;
-import models.Endereco;
 import utils.MenuFormatter;
+import models.*;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -28,7 +27,7 @@ public class CinemaController {
             }
 
             pstmt.setInt(1, idCinema+1);
-            pstmt.setString(2, cinema.getNome());
+            pstmt.setString(2, cinema.getNomeCinema());
             pstmt.setInt(3, cinema.getEndereco().getIdEndereco());
 
             pstmt.executeUpdate();
@@ -86,5 +85,10 @@ public class CinemaController {
             MenuFormatter.msgTerminalERROR(e.getMessage());
             return -999;
         }
+    }
+
+
+    public static Cinema buscarCinemaPorId(int idCinema) {
+        return null;
     }
 }

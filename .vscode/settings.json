@@ -1,0 +1,13 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "projeto-teste/lib/postgresql-42.7.4.jar"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.errors.incompleteClasspath.severity": "info",
+    "java.showBuildStatusOnStart.enabled": "notification",
+}

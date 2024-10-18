@@ -20,24 +20,26 @@ public class CinemaController {
         try (Connection conn = Database.conectar();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
 
-            pstmt.setInt(1, cinema.getIdCinema());
+            int idCinema = CinemaController.getMaiorId();
+            if(idCinema == -500){
+                idCinema = 0;
+            } else if(idCinema == -999){
+                return false;
+            }
+
+            pstmt.setInt(1, idCinema+1);
             pstmt.setString(2, cinema.getNome());
-            pstmt.setInt(3, cinema.getEndereco());
-            
+            pstmt.setInt(3, cinema.getEndereco().getIdEndereco());
+
+            pstmt.executeUpdate();
+
+            return true; 
             
         } catch (Exception e) {
             System.err.println("Erro ao inserir cinema: " + e.getMessage());
+            return false;
         }
     }
-
-    public static boolean excluirCinema (int idCinema) {
-        String sql = "DELETE FROM Cinema WHERE id_cinema = ?;";
-
-        
-
-
-    }
-
 
     public static boolean existeCinema (int idCinema) {
         String sql = "SELECT COUNT(id_cinema) AS resultado FROM cinema WHERE id_cinema = ?;";
@@ -63,6 +65,26 @@ public class CinemaController {
         } catch (SQLException e) {
             MenuFormatter.msgTerminalERROR(e.getMessage());
             return false;
+        }
+    }
+
+    private static int getMaiorId() {
+        String sql = "SELECT id_cinema AS resultado FROM cinema ORDER BY id_endereco DESC LIMIT 1;";
+        int ultimoId = -500;
+
+        try (Connection conn = Database.conectar();
+            Statement pstmt = conn.createStatement()) {
+
+            ResultSet rs = pstmt.executeQuery(sql);
+            while (rs.next()) {
+                ultimoId = rs.getInt("resultado");
+            }
+
+            return ultimoId;
+
+        } catch (SQLException e) {
+            MenuFormatter.msgTerminalERROR(e.getMessage());
+            return -999;
         }
     }
 }

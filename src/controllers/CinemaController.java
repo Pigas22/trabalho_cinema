@@ -114,6 +114,24 @@ public class CinemaController {
         return null;
     }
 
+    public static LinkedList<Cinema> listarTodosCinemas() {
+        LinkedList<Cinema> listaCinemas = new LinkedList<>();
+        String sql = "SELECT * FROM cinema";
+        try (Connection conn = Database.conectar();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                int idCinema = rs.getInt("id_cinema");
+                String nome = rs.getString("nome_cinema");
+                int idEndereco = rs.getInt("id_endereco");
+                listaCinemas.add(new Cinema(idCinema, nome, EnderecoController.buscarEnderecoPorId(idEndereco)));
+            }
+        } catch (SQLException e) {
+            MenuFormatter.msgTerminalERROR(e.getMessage());
+        }
+        return listaCinemas;
+    }
+
     public static boolean existeCinema(int idCinema) {
         String sql = "SELECT COUNT(id_cinema) AS resultado FROM cinema WHERE id_cinema = ?;";
         int qtdCinema = 0;

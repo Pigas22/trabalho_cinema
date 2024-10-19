@@ -1,8 +1,9 @@
 package controllers;
 
 import conexion.Database;
+import models.Cinema;
+import models.Endereco;
 import utils.MenuFormatter;
-import models.*;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -26,13 +27,8 @@ public class CinemaController {
                 return false;
             }
 
-<<<<<<< HEAD
             pstmt.setInt(1, idCinema + 1);
-            pstmt.setString(2, cinema.getNome());
-=======
-            pstmt.setInt(1, idCinema+1);
             pstmt.setString(2, cinema.getNomeCinema());
->>>>>>> 6c80aa67bfcfe4da061edd1d109421e2d3d47790
             pstmt.setInt(3, cinema.getEndereco().getIdEndereco());
 
             pstmt.executeUpdate();
@@ -64,6 +60,58 @@ public class CinemaController {
             MenuFormatter.msgTerminalERROR("Cinema não encontrado no Banco de Dados.");
             return false;
         }
+    }
+
+    public static boolean atualizarCinema(int idCinema, String nome, int idEndereco) {
+        String sql = "UPDATE cinema SET nome_cinema = ?, id_endereco = ? WHERE id_cinema = ?";
+
+        if (CinemaController.existeCinema(idCinema)) {
+            try (Connection conn = Database.conectar();
+                    PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, nome);
+                pstmt.setInt(2, idEndereco);
+                pstmt.setInt(3, idCinema);
+
+                pstmt.executeUpdate();
+
+                return true;
+
+            } catch (SQLException e) {
+                MenuFormatter.msgTerminalERROR(e.getMessage());
+                return false;
+            }
+
+        } else {
+            MenuFormatter.msgTerminalERROR("Cinema não encontrado no Banco de Dados.");
+            return false;
+        }
+    }
+
+    public static Cinema buscarCinemaPorId(int idCinemaPesquisa) {
+        if (CinemaController.existeCinema(idCinemaPesquisa)) {
+            String sql = "SELECT * FROM cinema WHERE id_cinema = ?";
+
+            try (Connection conn = Database.conectar();
+                    PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, idCinemaPesquisa);
+
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    int idCinema = rs.getInt("id_cinema");
+                    String nome = rs.getString("nome_cinema");
+                    int idEndereco = rs.getInt("id_endereco");
+                    return new Cinema(idCinema, nome, EnderecoController.buscarEnderecoPorId(idEndereco));
+                }
+            } catch (SQLException e) {
+                MenuFormatter.msgTerminalERROR(e.getMessage());
+            }
+        } else {
+            MenuFormatter.msgTerminalERROR("Não encontrado nenhum registro com o ID informado.");
+        }
+        return null;
     }
 
     public static boolean existeCinema(int idCinema) {
@@ -111,10 +159,5 @@ public class CinemaController {
             MenuFormatter.msgTerminalERROR(e.getMessage());
             return -999;
         }
-    }
-
-
-    public static Cinema buscarCinemaPorId(int idCinema) {
-        return null;
     }
 }

@@ -117,6 +117,7 @@ public class CinemaController {
     public static LinkedList<Cinema> listarTodosCinemas() {
         LinkedList<Cinema> listaCinemas = new LinkedList<>();
         String sql = "SELECT * FROM cinema";
+        
         try (Connection conn = Database.conectar();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

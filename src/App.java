@@ -1,9 +1,12 @@
+import java.security.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
 import controllers.CinemaController;
 import controllers.EnderecoController;
 import controllers.FilmeController;
+import controllers.SecaoController;
+import controllers.VendaController;
 import models.*;
 import utils.*;
 
@@ -46,13 +49,13 @@ public class App {
                         break;
                 }
            } else if (opcao == 3) {
-            // Alterar Registro
+                Menu.imprimirMenuAlterarRegistro();
            } else if (opcao == 4) {
                 Menu.imprimirMenuRemoverRegistro();
                 int opcaoRemover = scanner.nextInt();
                 switch (opcaoRemover) {
                     case 1:
-                        
+                        menuRemoverCinema(scanner);
                         break;
                 
                     default:
@@ -123,7 +126,64 @@ public class App {
 
         FilmeController.inserirFilme(new Filme(nome, preco));
 
-        System.out.println("Endereço inserido com sucesso!");
+        System.out.println("Filme inserido com sucesso!");
+
+    }
+
+    public static void menuInserirSecao(Scanner scanner) {
+
+        List<Cinema> cinemas = CinemaController.listarTodosCinemas();
+        if (cinemas.isEmpty()) {
+            System.out.println("Nenhum cinema disponível. Por favor, insira um cinema antes antes.");
+            return;
+        }
+
+        List<Filme> filmes = FilmeController.listarTodosFilmes();
+        if (filmes.isEmpty()) {
+            System.out.println("Nenhum filme disponível. Por favor, insira um filme antes.");
+            return;
+        }
+
+        System.out.println("Escolha um cinema pelo ID: ");
+        for (Cinema cinema : cinemas) {
+            System.out.println(cinema.getIdCinema() + ": " + cinema.getNomeCinema());
+        }
+
+        int idCinema = scanner.nextInt();
+        Cinema cinemaSelecionado = null;
+        for (Cinema cinema : cinemas) {
+            if (cinema.getIdCinema() == idCinema) {
+                cinemaSelecionado = cinema;
+            }
+        }
+
+        if (cinemaSelecionado == null) {
+            System.out.println("ID de cinema inválido.");
+            return;
+        }
+
+        System.out.println("Escolha um filme pelo ID: ");
+        for (Filme filme : filmes) {
+            System.out.println(filme.getIdFilme() + ": " + filme.getNomeFilme());
+        }
+
+        int idFilme = scanner.nextInt();
+        Filme filmeSelecionado = null;
+        for (Filme filme : filmes) {
+            if (filme.getIdFilme() == idFilme) {
+                filmeSelecionado = filme;
+            }
+        }
+
+        if (cinemaSelecionado == null) {
+            System.out.println("ID de filme inválido.");
+            return;
+        }
+        
+        System.out.println("Digite o horario da seção: ");
+        //Timestamp horario
+
+
 
     }
 

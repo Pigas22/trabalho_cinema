@@ -41,4 +41,18 @@ public class Menu {
         System.out.println("==================================");
         System.out.print("Escolha uma opção: ");
     }
+
+    public static void imprimirMenuAlterarRegistro() {
+        System.out.println("==================================");
+        System.out.println("|         ALTERAR REGISTRO       |");
+        System.out.println("==================================");
+        System.out.println("| 1. Cinema                      |");
+        System.out.println("| 2. Endereço                    |");
+        System.out.println("| 3. Filme                       |");
+        System.out.println("| 4. Sessão                      |");
+        System.out.println("| 5. Venda                       |");
+        System.out.println("| 6. Voltar                      |");
+        System.out.println("==================================");
+        System.out.print("Escolha uma opção: ");
+    }
 }

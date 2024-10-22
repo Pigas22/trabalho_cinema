@@ -2,7 +2,6 @@ package controllers;
 
 import conexion.Database;
 import models.Cinema;
-import models.Endereco;
 import utils.MenuFormatter;
 
 import java.sql.Connection;
@@ -176,6 +175,25 @@ public class CinemaController {
 
         } catch (SQLException e) {
             MenuFormatter.msgTerminalERROR(e.getMessage());
+            return -999;
+        }
+    }
+
+
+    public static int contarRegistros () {
+        try (Connection conn = Database.conectar();
+            Statement stmt = conn.createStatement()) {
+            
+            int qtdCinema = 0;
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(id_cinema) AS resultado FROM cinema;");
+            
+            while (rs.next()) {
+                qtdCinema = rs.getInt("resultado");
+            }
+
+            return qtdCinema;
+
+        } catch (SQLException e) {
             return -999;
         }
     }

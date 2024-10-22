@@ -140,6 +140,23 @@ public class Database {
         }
     }
 
+    public static int contarTabelas() {
+        try (Connection conexao = conectar();
+             Statement stmt = conexao.createStatement()) {
+
+            ResultSet rs = stmt.executeQuery(CHECK_DATA_SQL);
+            int num = 0;
+            while (rs.next()) {
+                num = rs.getInt("qtd_tabelas");
+            }
+
+            return num;
+
+        } catch (SQLException e) {
+            MenuFormatter.msgTerminalERROR(e.getMessage());
+            return -999;
+        }
+    }
 
     // Método para executar um comando SQL
     private static void executarSQL(String sql) {

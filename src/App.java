@@ -4,25 +4,29 @@ import java.util.Scanner;
 import controllers.CinemaController;
 import controllers.EnderecoController;
 import controllers.FilmeController;
-import models.Cinema;
-import models.Endereco;
-import models.Filme;
+import models.*;
+import utils.*;
 
 /**
  * App
  */
 public class App {
+    public final static boolean DEBUG = false;
     public static void main(String[] args) {
+        if (DEBUG) {
+            Arquivo.setLog(DEBUG);
+        }
+
         Scanner scanner = new Scanner(System.in);
         int opcao;
         do {
-           imprimirMenu();
+           Menu.imprimirMenu();
            opcao = scanner.nextInt();
 
            if (opcao == 1) {
                 //metodo Relatório;
            } else if (opcao == 2) {
-                imprimirMenuInserirRegistro();
+                Menu.imprimirMenuInserirRegistro();
                 int opcaoInserir = scanner.nextInt();
                 switch (opcaoInserir) {
                     case 1:
@@ -44,7 +48,7 @@ public class App {
            } else if (opcao == 3) {
             // Alterar Registro
            } else if (opcao == 4) {
-                imprimirMenuRemoverRegistro();
+                Menu.imprimirMenuRemoverRegistro();
                 int opcaoRemover = scanner.nextInt();
                 switch (opcaoRemover) {
                     case 1:
@@ -57,46 +61,6 @@ public class App {
            }
 
         } while (opcao != 0);
-    }
-    public static void imprimirMenu() {
-        System.out.println("==================================");
-        System.out.println("|          MENU PRINCIPAL        |");
-        System.out.println("==================================");
-        System.out.println("| 1. Relatório                   |");
-        System.out.println("| 2. Inserir Registro            |");
-        System.out.println("| 3. Alterar Registro            |");
-        System.out.println("| 4. Remover Registro            |");
-        System.out.println("| 0. Sair                        |");
-        System.out.println("==================================");
-        System.out.print("Escolha uma opção: ");
-    }
-
-    public static void imprimirMenuInserirRegistro() {
-        System.out.println("==================================");
-        System.out.println("|         INSERIR REGISTRO       |");
-        System.out.println("==================================");
-        System.out.println("| 1. Cinema                      |");
-        System.out.println("| 2. Endereço                    |");
-        System.out.println("| 3. Filme                       |");
-        System.out.println("| 4. Sessão                      |");
-        System.out.println("| 5. Venda                       |");
-        System.out.println("| 6. Voltar                      |");
-        System.out.println("==================================");
-        System.out.print("Escolha uma opção: ");
-    }
-
-    public static void imprimirMenuRemoverRegistro() {
-        System.out.println("==================================");
-        System.out.println("|         REMOVER REGISTRO       |");
-        System.out.println("==================================");
-        System.out.println("| 1. Cinema                      |");
-        System.out.println("| 2. Endereço                    |");
-        System.out.println("| 3. Filme                       |");
-        System.out.println("| 4. Sessão                      |");
-        System.out.println("| 5. Venda                       |");
-        System.out.println("| 6. Voltar                      |");
-        System.out.println("==================================");
-        System.out.print("Escolha uma opção: ");
     }
 
     public static void menuInserirEndereco(Scanner scanner){
@@ -157,7 +121,7 @@ public class App {
         System.out.println("Digite o preço do Filme: ");
         Double preco = scanner.nextDouble();
 
-        FilmeController.inserirFilme(new Filme(nome, 0));
+        FilmeController.inserirFilme(new Filme(nome, preco));
 
         System.out.println("Endereço inserido com sucesso!");
 

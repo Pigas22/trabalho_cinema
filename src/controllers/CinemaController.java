@@ -2,7 +2,6 @@ package controllers;
 
 import conexion.Database;
 import models.Cinema;
-import models.Endereco;
 import utils.MenuFormatter;
 
 import java.sql.Connection;

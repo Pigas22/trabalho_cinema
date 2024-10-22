@@ -238,6 +238,35 @@ public class App {
 
 
     // metodos para remover
+    public static void menuRemoverEndereco(Scanner scanner) {
+        scanner.nextLine();
+        List<Endereco> enderecos = EnderecoController.listarTodosEnderecos();
+        if (enderecos.isEmpty()) {
+            System.out.println("Nenhum endereço disponível. Por favor, insira um endereço antes.");
+            return;
+        }
+
+        System.out.println("Escolha um Endereço pelo ID: ");
+        for (Endereco endereco : enderecos){
+            System.out.println(endereco.getIdEndereco() + ": " + endereco.getCidade() + ": " + endereco.getBairro() + ": " + endereco.getCidade());
+        }
+
+        int idEndereco = scanner.nextInt();
+        Endereco enderecoSelecionado = null;
+        for (Endereco endereco : enderecos) {
+            if (endereco.getIdEndereco() == idEndereco) {
+                enderecoSelecionado = endereco;
+            }
+        }
+
+        if (enderecoSelecionado == null) {
+            System.out.println("ID de endeço inválido.");
+            return;
+        }
+
+        EnderecoController.excluirEndereco(idEndereco);
+    }
+
     public static void menuRemoverCinema(Scanner scanner){
         scanner.nextLine();
         List<Cinema> cinemas = CinemaController.listarTodosCinemas();

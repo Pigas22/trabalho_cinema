@@ -1,6 +1,7 @@
-import java.security.Timestamp;
 import java.util.List;
 import java.util.Scanner;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import controllers.CinemaController;
 import controllers.EnderecoController;
@@ -42,7 +43,7 @@ public class App {
                         menuInserirFilme(scanner);
                         break;
                     case 4:
-                        
+                        menuInserirSecao(scanner);
                         break;
                 
                     default:
@@ -131,24 +132,23 @@ public class App {
     }
 
     public static void menuInserirSecao(Scanner scanner) {
-
         List<Cinema> cinemas = CinemaController.listarTodosCinemas();
         if (cinemas.isEmpty()) {
-            System.out.println("Nenhum cinema disponível. Por favor, insira um cinema antes antes.");
+            System.out.println("Nenhum cinema disponível. Por favor, insira um cinema antes.");
             return;
         }
-
+    
         List<Filme> filmes = FilmeController.listarTodosFilmes();
         if (filmes.isEmpty()) {
             System.out.println("Nenhum filme disponível. Por favor, insira um filme antes.");
             return;
         }
-
+    
         System.out.println("Escolha um cinema pelo ID: ");
         for (Cinema cinema : cinemas) {
             System.out.println(cinema.getIdCinema() + ": " + cinema.getNomeCinema());
         }
-
+    
         int idCinema = scanner.nextInt();
         Cinema cinemaSelecionado = null;
         for (Cinema cinema : cinemas) {
@@ -156,17 +156,17 @@ public class App {
                 cinemaSelecionado = cinema;
             }
         }
-
+    
         if (cinemaSelecionado == null) {
             System.out.println("ID de cinema inválido.");
             return;
         }
-
+    
         System.out.println("Escolha um filme pelo ID: ");
         for (Filme filme : filmes) {
             System.out.println(filme.getIdFilme() + ": " + filme.getNomeFilme());
         }
-
+    
         int idFilme = scanner.nextInt();
         Filme filmeSelecionado = null;
         for (Filme filme : filmes) {
@@ -174,18 +174,27 @@ public class App {
                 filmeSelecionado = filme;
             }
         }
-
-        if (cinemaSelecionado == null) {
+    
+        if (filmeSelecionado == null) {
             System.out.println("ID de filme inválido.");
             return;
         }
-        
-        System.out.println("Digite o horario da seção: ");
-        //Timestamp horario
+    
+        System.out.println("Digite o horário da seção (formato: yyyy-MM-dd HH:mm:ss): ");
+        scanner.nextLine(); // Consumir a nova linha
+        String horarioStr = scanner.nextLine();
+        Timestamp horario = Timestamp.valueOf(horarioStr);
 
-
-
+        System.out.println("Digite a quantidade de assentos: ");
+        scanner.nextLine();
+        int qtd_assento = scanner.nextInt();
+    
+        //insira no banco de dados
+        SecaoController.inserirSecao(new Secao(horario, cinemaSelecionado, filmeSelecionado, qtd_assento));
+    
+        System.out.println("Seção inserido com sucesso!");
     }
+    
 
     // metodos para remover
     public static void menuRemoverCinema(Scanner scanner){

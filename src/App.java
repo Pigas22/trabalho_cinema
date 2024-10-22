@@ -45,6 +45,9 @@ public class App {
                     case 4:
                         menuInserirSecao(scanner);
                         break;
+                    case 5:
+                        menuInserirVenda(scanner);
+                        break;
                 
                     default:
                         break;
@@ -67,7 +70,7 @@ public class App {
         } while (opcao != 0);
     }
 
-    public static void menuInserirEndereco(Scanner scanner){
+    public static void menuInserirEndereco(Scanner scanner) {
         scanner.nextLine();
         System.out.print("Digite o número: ");
         int numero = scanner.nextInt();
@@ -86,7 +89,7 @@ public class App {
         System.out.println("Endereço inserido com sucesso!");
     }
 
-    public static void menuInserirCinema(Scanner scanner){
+    public static void menuInserirCinema(Scanner scanner) {
         scanner.nextLine();
         System.out.println("Digite o nome: ");
         String nome = scanner.nextLine();
@@ -195,6 +198,44 @@ public class App {
         System.out.println("Seção inserido com sucesso!");
     }
     
+    public static void menuInserirVenda(Scanner scanner) {
+    List<Secao> secaos = SecaoController.listarTodosSecaos();
+    if (secaos.isEmpty()) {
+        System.out.println("Nenhuma seção disponível. Por favor, insira uma seção antes.");
+        return;
+    }
+
+    System.out.println("Escolha uma seção pelo ID: ");
+    for (Secao secao : secaos) {
+        System.out.println(secao.getIdSecao() + ": " + secao.getFilme().getNomeFilme() + ": " + secao.getHorario() + ": " + secao.getCinema().getEndereco().getCidade());
+    }
+
+    int idSecao = scanner.nextInt();
+    scanner.nextLine(); // Consumir a nova linha
+
+    Secao secaoSelecionado = null;
+    for (Secao secao : secaos) {
+        if (secao.getIdSecao() == idSecao) {
+            secaoSelecionado = secao;
+            break; // Adicionado para sair do loop quando a seção for encontrada
+        }
+    }
+
+    if (secaoSelecionado == null) {
+        System.out.println("ID de seção inválido");
+        return; // Adicionado para interromper a execução
+    }
+
+    System.out.println("Digite o nome da pessoa: ");
+    String nome = scanner.nextLine();
+    System.out.println("Digite o assento: ");
+    int assento = scanner.nextInt();
+    System.out.println("Digite a forma de pagamento: ");
+    String formaPagamento = scanner.nextLine();
+
+    VendaController.inserirVenda(new Venda(nome, assento, formaPagamento, secaoSelecionado));
+}
+
 
     // metodos para remover
     public static void menuRemoverCinema(Scanner scanner){

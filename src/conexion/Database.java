@@ -170,28 +170,4 @@ public class Database {
         }
     }
 
-    // Main
-    public static void main(String[] args) {
-        // Teste da classe
-
-        // droparDatabase();
-        // excluirTabelas();
-
-        criarDatabase();
-        inicializarDatabase();
-
-        /*
-        Connection conexao = conectar();
-        if (conexao == null) {
-            if(criarDatabase()) {
-                conectar();
-                inicializarDatabase();
-
-            }
-
-        } else {
-            inicializarDatabase();
-        }
-        */
-    }
 }

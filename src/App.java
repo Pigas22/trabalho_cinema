@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.util.Scanner;
+
+import conexion.Database;
+
 import java.util.LinkedList;
 
 import utils.*;
@@ -11,8 +14,11 @@ import reports.*;
 public class App {
     
     public static void main(String[] args) throws IOException, InterruptedException {
-        Arquivo.setLog(false);
+        Database.droparDatabase();
+        Database.criarDatabase();
+        Database.inicializarDatabase();
         
+        Arquivo.setLog(false);
         Scanner scanner = new Scanner(System.in);
 
         int opcao;
@@ -85,28 +91,6 @@ public class App {
                 default:
                     break;
             }
-
-
-               switch (opcaoAlterar) {
-                    case 1:
-                        
-                        break;
-                    case 2:
-                        
-                        break;
-                    case 3:
-                        
-                        break;
-                    case 4:
-                        
-                        break;
-                    case 5:
-                        
-                        break;
-                
-                    default:
-                        break;
-               }
 
            } else if (opcao == 4) {
                 Menu.imprimirMenuRemoverRegistro();

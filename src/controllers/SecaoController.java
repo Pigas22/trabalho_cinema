@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class SecaoController {
-    public static boolean inserirSecao (Secao secao) {
+    public static boolean inserirRegistro (Secao secao) {
         String sql = "INSERT INTO secao (id_secao, horario, id_cinema, id_filme, qtd_assentos) VALUES (?, ?, ?, ?, ?);";
 
         try (Connection conn = Database.conectar();
@@ -44,10 +44,10 @@ public class SecaoController {
         }
     }
     
-    public static boolean excluirSecao (int idSecao) {
+    public static boolean excluirRegistro (int idSecao) {
         String sql = "DELETE FROM secao WHERE id_secao = ?;";
 
-        if (SecaoController.existeSecao(idSecao)) {
+        if (SecaoController.existeRegistro(idSecao)) {
             try (Connection conn = Database.conectar();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -83,10 +83,10 @@ public class SecaoController {
             }
     }
 
-    public static boolean atualizarSecao (int idSecao, Timestamp horario, int idCinema, int idFilme, int qtdAssentos) {
+    public static boolean atualizarRegistro (int idSecao, Timestamp horario, int idCinema, int idFilme, int qtdAssentos) {
         String sql = "UPDATE secao SET horario = ?, id_cinema = ?, id_filme = ?, qtd_assentos = ? WHERE id_secao = ?;";
 
-        if (FilmeController.existeFilme(idFilme)) {
+        if (FilmeController.existeRegistro(idFilme)) {
             try (Connection conn = Database.conectar();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -111,10 +111,10 @@ public class SecaoController {
         }
     }
 
-    public static boolean atualizarSecao (Secao secao) {
+    public static boolean atualizarRegistro (Secao secao) {
         String sql = "UPDATE secao SET horario = ?, id_cinema = ?, id_filme = ?, qtd_assentos = ? WHERE id_secao = ?;";
 
-        if (FilmeController.existeFilme(secao.getIdSecao())) {
+        if (FilmeController.existeRegistro(secao.getIdSecao())) {
             try (Connection conn = Database.conectar();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -139,8 +139,8 @@ public class SecaoController {
         }
     }
    
-    public static Secao buscarSecaoPorId (int idSecaoPesquisa) {
-        if (SecaoController.existeSecao(idSecaoPesquisa)) {
+    public static Secao buscarRegistroPorId (int idSecaoPesquisa) {
+        if (SecaoController.existeRegistro(idSecaoPesquisa)) {
             String sql = "SELECT * FROM secao WHERE id_secao = ?";
     
             // Inicialização com valores irreais
@@ -161,8 +161,8 @@ public class SecaoController {
                     qtdAssentos = rs.getInt("qtd_assentos");
                 }
 
-                Cinema cinema = CinemaController.buscarCinemaPorId(idCinema);
-                Filme filme = FilmeController.buscarFilmePorId(idFilme);
+                Cinema cinema = CinemaController.buscarRegistroPorId(idCinema);
+                Filme filme = FilmeController.buscarRegistroPorId(idFilme);
                 
                 return new Secao(idSecao, horairo, cinema, filme, qtdAssentos);
     
@@ -178,7 +178,7 @@ public class SecaoController {
 
     }
 
-    public static LinkedList<Secao> listarTodosSecaos () {
+    public static LinkedList<Secao> listarTodosRegistros () {
         LinkedList<Secao> listaResgistros = new LinkedList<Secao>();
         String sql = "SELECT * FROM secao";
 
@@ -198,8 +198,8 @@ public class SecaoController {
                 idFilme = rs.getInt("id_filme");
                 qtdAssentos = rs.getInt("qtd_assentos");
 
-                cinema = CinemaController.buscarCinemaPorId(idCinema);
-                filme = FilmeController.buscarFilmePorId(idFilme);
+                cinema = CinemaController.buscarRegistroPorId(idCinema);
+                filme = FilmeController.buscarRegistroPorId(idFilme);
 
                 listaResgistros.add(new Secao(idSecao, horairo, cinema, filme, qtdAssentos));
             }
@@ -230,7 +230,7 @@ public class SecaoController {
         }
     }
 
-    public static boolean existeSecao (int idSecao) {
+    public static boolean existeRegistro (int idSecao) {
         String sql = "SELECT COUNT(id_secao) AS resultado FROM secao WHERE id_secao = ?;";
         int qtdSecao = 0;
 

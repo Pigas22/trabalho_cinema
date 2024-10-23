@@ -162,7 +162,7 @@ public class VendaController {
     
                 }
 
-                secao = SecaoController.buscarSecaoPorId(idSecao);
+                secao = SecaoController.buscarRegistroPorId(idSecao);
                 
                 return new Venda(idVenda, nomeCliente, assento, formaPagamento, secao);
 
@@ -178,7 +178,7 @@ public class VendaController {
 
     }
 
-    public static LinkedList<Venda> listarTodosVendas () {
+    public static LinkedList<Venda> listarTodosRegistros () {
         LinkedList<Venda> listaResgistros = new LinkedList<Venda>();
         String sql = "SELECT * FROM venda";
 
@@ -197,7 +197,7 @@ public class VendaController {
                 formaPagamento = rs.getString("forma_pagamento");
                 idSecao = rs.getInt("id_secao");
 
-                secao = SecaoController.buscarSecaoPorId(idSecao);
+                secao = SecaoController.buscarRegistroPorId(idSecao);
 
                 listaResgistros.add(new Venda(idVenda, nomeCliente, assento, formaPagamento, secao));
             }

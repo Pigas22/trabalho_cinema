@@ -70,6 +70,8 @@ public class Menu {
 
     
     public static void menuInserirEndereco() {
+        MenuFormatter.titulo("INSERIR - ENDREÇO");
+
         System.out.print("Digite o número: ");
         int numero = scanner.nextInt();
         scanner.nextLine();
@@ -82,9 +84,9 @@ public class Menu {
         System.out.print("Digite o UF: ");
         String uf = scanner.nextLine();
 
-        EnderecoController.inserirEndereco(new Endereco(numero, rua, bairro, cidade, uf));
+        EnderecoController.inserirRegistro(new Endereco(numero, rua, bairro, cidade, uf));
         
-        System.out.println("Endereço inserido com sucesso!");
+        MenuFormatter.msgTerminalINFO("Endereço inserido com sucesso!");
     }
 
     public static void menuInserirCinema() {
@@ -93,7 +95,7 @@ public class Menu {
         System.out.print ("Digite o nome: ");
         String nome = scanner.nextLine();
 
-        List<Endereco> enderecos =  EnderecoController.listarTodosEnderecos();
+        List<Endereco> enderecos =  EnderecoController.listarTodosRegistros ();
         if (enderecos.isEmpty()) {
             MenuFormatter.msgTerminalERROR("Nenhum endereço disponível. Por favor, insira um endereço antes.");
             return;
@@ -105,39 +107,42 @@ public class Menu {
         
         System.out.print("Escolha um endereço pelo ID: ");
         int idEndereco = scanner.nextInt();
-        Endereco enderecoSelecionado = EnderecoController.buscarEnderecoPorId(idEndereco);
+        Endereco enderecoSelecionado = EnderecoController.buscarRegistroPorId(idEndereco);
 
         if (enderecoSelecionado == null) {
             MenuFormatter.msgTerminalERROR("ID de endereço inválido.");
             return;
         }
 
-        CinemaController.inserirCinema(new Cinema(nome, enderecoSelecionado));
+        CinemaController.inserirRegistro(new Cinema(nome, enderecoSelecionado));
     }
 
     public static void menuInserirFilme() {
-        scanner.nextLine();
+        MenuFormatter.titulo("INSERIR - FILME");
+
         System.out.println("Digite o nome do Filme: ");
         String nome = scanner.nextLine();
         System.out.println("Digite o preço do Filme: ");
         Double preco = scanner.nextDouble();
 
-        FilmeController.inserirFilme(new Filme(nome, preco));
+        FilmeController.inserirRegistro(new Filme(nome, preco));
 
-        System.out.println("Filme inserido com sucesso!");
+        MenuFormatter.msgTerminalINFO("Filme inserido com sucesso!");
 
     }
 
     public static void menuInserirSecao() {
-        List<Cinema> cinemas = CinemaController.listarTodosCinemas();
+        MenuFormatter.titulo("INSERIR - SECAO");
+
+        List<Cinema> cinemas = CinemaController.listarTodosRegistros();
         if (cinemas.isEmpty()) {
-            System.out.println("Nenhum cinema disponível. Por favor, insira um cinema antes.");
+            MenuFormatter.msgTerminalERROR("Nenhum cinema disponível. Por favor, insira um cinema antes.");
             return;
         }
     
-        List<Filme> filmes = FilmeController.listarTodosFilmes();
+        List<Filme> filmes = FilmeController.listarTodosRegistros();
         if (filmes.isEmpty()) {
-            System.out.println("Nenhum filme disponível. Por favor, insira um filme antes.");
+            MenuFormatter.msgTerminalERROR("Nenhum filme disponível. Por favor, insira um filme antes.");
             return;
         }
     
@@ -155,7 +160,7 @@ public class Menu {
         }
     
         if (cinemaSelecionado == null) {
-            System.out.println("ID de cinema inválido.");
+            MenuFormatter.msgTerminalERROR("ID de cinema inválido.");
             return;
         }
     
@@ -173,7 +178,7 @@ public class Menu {
         }
     
         if (filmeSelecionado == null) {
-            System.out.println("ID de filme inválido.");
+            MenuFormatter.msgTerminalERROR("ID de filme inválido.");
             return;
         }
     
@@ -187,56 +192,58 @@ public class Menu {
         int qtd_assento = scanner.nextInt();
     
         //insira no banco de dados
-        SecaoController.inserirSecao(new Secao(horario, cinemaSelecionado, filmeSelecionado, qtd_assento));
+        SecaoController.inserirRegistro(new Secao(horario, cinemaSelecionado, filmeSelecionado, qtd_assento));
     
-        System.out.println("Seção inserido com sucesso!");
+        MenuFormatter.msgTerminalINFO("Seção inserido com sucesso!");
     }
     
     public static void menuInserirVenda() {
-    List<Secao> secaos = SecaoController.listarTodosSecaos();
-    if (secaos.isEmpty()) {
-        System.out.println("Nenhuma seção disponível. Por favor, insira uma seção antes.");
-        return;
-    }
+        MenuFormatter.titulo("INSERIR - VENDA");
 
-    System.out.println("Escolha uma seção pelo ID: ");
-    for (Secao secao : secaos) {
-        System.out.println(secao.getIdSecao() + ": " + secao.getFilme().getNomeFilme() + ": " + secao.getHorario() + ": " + secao.getCinema().getEndereco().getCidade());
-    }
-
-    int idSecao = scanner.nextInt();
-    scanner.nextLine(); // Consumir a nova linha
-
-    Secao secaoSelecionado = null;
-    for (Secao secao : secaos) {
-        if (secao.getIdSecao() == idSecao) {
-            secaoSelecionado = secao;
-            break; // Adicionado para sair do loop quando a seção for encontrada
+        List<Secao> secoes = SecaoController.listarTodosRegistros();
+        if (secoes.isEmpty()) {
+            MenuFormatter.msgTerminalERROR("Nenhuma seção disponível. Por favor, insira uma seção antes.");
+            return;
         }
-    }
 
-    if (secaoSelecionado == null) {
-        System.out.println("ID de seção inválido");
-        return; // Adicionado para interromper a execução
-    }
+        System.out.println("Escolha uma seção pelo ID: ");
+        for (Secao secao : secoes) {
+            System.out.println(secao.getIdSecao() + ": " + secao.getFilme().getNomeFilme() + ": " + secao.getHorario() + ": " + secao.getCinema().getEndereco().getCidade());
+        }
 
-    System.out.println("Digite o nome da pessoa: ");
-    String nome = scanner.nextLine();
-    System.out.println("Digite o assento: ");
-    int assento = scanner.nextInt();
-    System.out.println("Digite a forma de pagamento: ");
-    String formaPagamento = scanner.nextLine();
+        int idSecao = scanner.nextInt();
+        scanner.nextLine(); // Consumir a nova linha
 
-    VendaController.inserirVenda(new Venda(nome, assento, formaPagamento, secaoSelecionado));
+        Secao secaoSelecionado = null;
+        for (Secao secao : secoes) {
+            if (secao.getIdSecao() == idSecao) {
+                secaoSelecionado = secao;
+                break; // Adicionado para sair do loop quando a seção for encontrada
+            }
+        }
+
+        if (secaoSelecionado == null) {
+            MenuFormatter.msgTerminalERROR("ID de seção inválido");
+            return; // Adicionado para interromper a execução
+        }
+
+        System.out.println("Digite o nome da pessoa: ");
+        String nome = scanner.nextLine();
+        System.out.println("Digite o assento: ");
+        int assento = scanner.nextInt();
+        System.out.println("Digite a forma de pagamento: ");
+        String formaPagamento = scanner.nextLine();
+
+        VendaController.inserirVenda(new Venda(nome, assento, formaPagamento, secaoSelecionado));
 }
 
 
     // metodos para remover
     public static void menuRemoverEndereco() {
         scanner.nextLine();
-        List<Endereco> enderecos = EnderecoController.listarTodosEnderecos();
+        List<Endereco> enderecos = EnderecoController.listarTodosRegistros();
         if (enderecos.isEmpty()) {
-            System.out.println("Nenhum endereço disponível. Por favor, insira um endereço antes.");
+            MenuFormatter.msgTerminalERROR("Nenhum endereço disponível. Por favor, insira um endereço antes.");
             return;
         }
 
@@ -254,18 +261,18 @@ public class Menu {
         }
 
         if (enderecoSelecionado == null) {
-            System.out.println("ID de endeço inválido.");
+            MenuFormatter.msgTerminalERROR("ID de endeço inválido.");
             return;
         }
 
-        EnderecoController.excluirEndereco(idEndereco);
+        EnderecoController.excluirRegistro(idEndereco);
     }
 
     public static void menuRemoverCinema(){
         scanner.nextLine();
-        List<Cinema> cinemas = CinemaController.listarTodosCinemas();
+        List<Cinema> cinemas = CinemaController.listarTodosRegistros();
         if (cinemas.isEmpty()) {
-            System.out.println("Nenhum cinema disponível. Por favor, insira um cinema antes.");
+            MenuFormatter.msgTerminalERROR("Nenhum cinema disponível. Por favor, insira um cinema antes.");
             return;
         }
 
@@ -283,14 +290,16 @@ public class Menu {
         }
 
         if (cinemaSelecionado == null) {
-            System.out.println("ID de cinema inválido.");
+            MenuFormatter.msgTerminalERROR("ID de cinema inválido.");
             return;
         }
 
-        CinemaController.excluirCinema(idCinema);
+        CinemaController.excluirRegistro(idCinema);
 
     }
 
+
+    // metodos para exibir o Relatorio
     public static void exibirRelatorio() {
         LinkedList<String> cinemaEndereco = Relatorio.listarCinemaEndereco();
         LinkedList<String> informacoes = Relatorio.listarInformacoes();
@@ -327,4 +336,211 @@ public class Menu {
         }
     }
 
+
+    // metodos para alterar
+    public static void menuAlterarCinema() {
+        if (CinemaController.contarRegistros() == 0) {
+            MenuFormatter.msgTerminalERROR("Nenhum Cinema disponível.");
+            return;
+        }
+
+        for (Cinema cinema : CinemaController.listarTodosRegistros()){
+            System.out.println("ID: " + cinema.getIdCinema() + ", Nome Cinema: " + cinema.getNomeCinema() + ", ID do Endereço: " 
+                            + cinema.getEndereco().getIdEndereco() + ", Cidade: " + cinema.getEndereco().getCidade());
+        }
+        System.out.print("Escolha o Cinema que deseja alterar pelo ID: ");
+        int idEndereco = scanner.nextInt();
+        
+        Cinema cinemaSelecionado = CinemaController.buscarRegistroPorId(idEndereco);
+        if (cinemaSelecionado == null) {
+            System.out.println("ID de Cinema inválido.");
+            return;
+        }
+
+        System.out.print("Nome do Cinema: ");
+        cinemaSelecionado.setNomeCinema(scanner.nextLine());
+
+        System.out.print("ID do Endereço: ");
+        cinemaSelecionado.setEndereco(EnderecoController.buscarRegistroPorId(scanner.nextInt()));
+
+        if (!EnderecoController.existeRegistro(cinemaSelecionado.getEndereco().getIdEndereco())) {
+            MenuFormatter.msgTerminalERROR("Endereço não encontrado.");
+            return;
+        }
+        
+        CinemaController.atualizarRegistro(cinemaSelecionado);
+    }
+
+    public static void menuAlterarEndereco() {
+        if (EnderecoController.contarRegistros() == 0) {
+            MenuFormatter.msgTerminalERROR("Nenhum Endereço disponível.");
+            return;
+        }
+
+        for (Endereco endereco : EnderecoController.listarTodosRegistros()){
+            System.out.println("ID: " + endereco.getIdEndereco() + ", Número: " + endereco.getNumero() + ", Rua: " + endereco.getRua() 
+                        + ", Bairro: " + endereco.getBairro() + ", Cidade: " + endereco.getCidade() + ", UF: " + endereco.getUf());
+        }
+        System.out.print("Escolha o Endereço que deseja alterar pelo ID: ");
+        int idEndereco = scanner.nextInt();
+        
+        Endereco enderecoSelecionado = EnderecoController.buscarRegistroPorId(idEndereco);
+        if (enderecoSelecionado == null) {
+            System.out.println("ID de Endereço inválido.");
+            return;
+        }
+
+        System.out.print("Número do Endereço: ");
+        enderecoSelecionado.setNumero(scanner.nextInt());
+
+        System.out.print("Rua do Endereço: ");
+        enderecoSelecionado.setRua(scanner.nextLine());
+
+        System.out.print("Bairro do Endereço: ");
+        enderecoSelecionado.setBairro(scanner.nextLine());
+
+        System.out.print("Cidade do Endereço: ");
+        enderecoSelecionado.setCidade(scanner.nextLine());
+
+        System.out.print("UF do Endereço: ");
+        enderecoSelecionado.setUf(scanner.next());
+        
+        EnderecoController.atualizarRegistro(enderecoSelecionado);
+    }
+
+    public static void menuAlterarFilme() {              
+        if (FilmeController.contarRegistros() == 0) {
+            MenuFormatter.msgTerminalERROR("Nenhum filme disponível.");
+            return;
+        }
+
+        for (Filme filme : FilmeController.listarTodosRegistros()){
+            System.out.println(filme.getIdFilme() + "  - Nome Filme: " + filme.getNomeFilme() + "  - Preço: " + filme.getPreco());
+        }
+        System.out.print("Escolha o Filme que deseja alterar pelo ID: ");
+        int idFilme = scanner.nextInt();
+        
+        Filme filmeSelecionado = FilmeController.buscarRegistroPorId(idFilme);
+        if (filmeSelecionado == null) {
+            System.out.println("ID de Filme inválido.");
+            return;
+        }
+
+        System.out.print("Nome do Filme: ");
+        filmeSelecionado.setNomeFilme(scanner.nextLine());
+
+        System.out.print("Preço do Filme: ");
+        filmeSelecionado.setPreco(scanner.nextDouble());
+
+        FilmeController.atualizarRegistro(filmeSelecionado);
+    }
+
+    public static void menuAlterarSecao() {
+        if (SecaoController.contarRegistros() == 0) {
+            MenuFormatter.msgTerminalERROR("Nenhuma Seção disponível.");
+            return;
+        }
+
+        for (Secao secao : SecaoController.listarTodosRegistros()){
+            System.out.println("ID: " + secao.getIdSecao() + ", Horário: " + secao.getHorario() + ", Quantidade Assentos: " + secao.getQtdAssentos()
+                            + ", ID Cinema: " + secao.getCinema().getIdCinema() + ", ID Filme: " + secao.getFilme().getIdFilme());
+        }
+        System.out.print("Escolha a Seção que deseja alterar pelo ID: ");
+        int idSecao = scanner.nextInt();
+        
+        Secao secaoSelecionado = SecaoController.buscarRegistroPorId(idSecao);
+        if (secaoSelecionado == null) {
+            System.out.println("ID de Seção inválido.");
+            return;
+        }
+
+        System.out.print("Horario do Filme (formato: yyyy-MM-dd HH:mm:ss): ");
+        String horarioStr = scanner.nextLine();
+        secaoSelecionado.setHorario(Timestamp.valueOf(horarioStr));
+
+        System.out.print("Quantidade de Assentos: ");
+        secaoSelecionado.setQtdAssentos(scanner.nextInt());
+
+        System.out.print("ID do Cinema: ");
+        secaoSelecionado.setCinema(CinemaController.buscarRegistroPorId(scanner.nextInt()));
+
+        if (!CinemaController.existeRegistro(secaoSelecionado.getCinema().getIdCinema())) {
+            MenuFormatter.msgTerminalERROR("Cinema não encontrado");
+            return;
+        }
+
+        System.out.print("ID do Filme: ");
+        secaoSelecionado.setFilme(FilmeController.buscarRegistroPorId(scanner.nextInt()));
+
+        if (!FilmeController.existeRegistro(secaoSelecionado.getFilme().getIdFilme())) {
+            MenuFormatter.msgTerminalERROR("Filme não encontrado.");
+            return;
+        }
+
+        SecaoController.atualizarRegistro(secaoSelecionado);
+    }
+
+    public static void menuAlterarVenda() {
+        if (VendaController.contarRegistros() == 0) {
+            MenuFormatter.msgTerminalERROR("Nenhuma Venda disponível.");
+            return;
+        }
+
+        for (Venda venda : VendaController.listarTodosRegistros()){
+            System.out.println("ID: " + venda.getIdVenda() + ", Cliente: " + venda.getNomeCliente() + ", Assento: " + venda.getAssento()
+                            + ", Forma de Pagamento: " + venda.getFormaPagamento() + ", ID Seção: " + venda.getSecao().getIdSecao());
+        }
+        System.out.print("Escolha a Venda que deseja alterar pelo ID: ");
+        int idVenda = scanner.nextInt();
+        
+        Venda vendaSelacionada = VendaController.buscarVendaPorId(idVenda);
+        if (vendaSelacionada == null) {
+            System.out.println("ID de Venda inválido.");
+            return;
+        }
+
+        System.out.print("Nome do Cliente: ");
+        vendaSelacionada.setNomeCliente(scanner.nextLine());
+
+        System.out.print("Assento: ");
+        vendaSelacionada.setAssento(scanner.nextInt());
+
+        System.out.print("ID da Seção: ");
+        vendaSelacionada.setSecao(SecaoController.buscarRegistroPorId(scanner.nextInt()));
+
+        if (!SecaoController.existeRegistro(vendaSelacionada.getSecao().getIdSecao())) {
+            MenuFormatter.msgTerminalERROR("Seção não encontrada");
+            return;
+        }
+
+        VendaController.atualizarVenda(vendaSelacionada);
+    }
+
+    // SplashScreen
+    public static void splashScreen() {
+        String[] nomeTabelas = {"Endereços", "Cinemas", "Filmes", "Seções", "Vendas"};
+        String[] qtdRegistrosTabelas = {
+            Integer.toString(EnderecoController.contarRegistros()),
+            Integer.toString(CinemaController.contarRegistros()),
+            Integer.toString(FilmeController.contarRegistros()),
+            Integer.toString(SecaoController.contarRegistros()),
+            Integer.toString(VendaController.contarRegistros())
+        };
+
+        MenuFormatter.titulo("Venda de Seções");
+        MenuFormatter.centralizar(" // Total de Registros Existentes \\\\ ");
+        System.out.println(MenuFormatter.criaTabelaCompleta(nomeTabelas, qtdRegistrosTabelas));
+
+        System.out.println("\n");
+
+        System.out.println("Craido por:                      |");
+        System.out.println("  Davi Tambara Rodrigues         |    Disciplina:  BANCO DE DADOS");
+        System.out.println("  Samuel Eduardo Rocha de Souza  |    Professor:   Howard Roatti");
+        System.out.println("  Thiago Holz Coutinho           |");
+
+        System.out.println("");
+        MenuFormatter.centralizar("2024/2");
+
+        MenuFormatter.linha();
+    }
 }

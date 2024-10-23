@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class FilmeController {
-    public static boolean inserirFilme (Filme filme) {
+    public static boolean inserirRegistro (Filme filme) {
         String sql = "INSERT INTO filme (id_filme, nome_filme, preco) VALUES (?, ?, ?);";
 
         try (Connection conn = Database.conectar();
@@ -41,10 +41,10 @@ public class FilmeController {
         }
     }
     
-    public static boolean excluirFilme (int idFilme) {
+    public static boolean excluirRegistro (int idFilme) {
         String sql = "DELETE FROM filme WHERE id_filme = ?;";
 
-        if (FilmeController.existeFilme(idFilme)) {
+        if (FilmeController.existeRegistro(idFilme)) {
             try (Connection conn = Database.conectar();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -80,10 +80,10 @@ public class FilmeController {
             }
     }
 
-    public static boolean atualizarFilme (int idFilme, String nomeFilme, double preco) {
+    public static boolean atualizarRegistro (int idFilme, String nomeFilme, double preco) {
         String sql = "UPDATE filme SET nome_filme = ?, preco = ? WHERE id_filme = ?;";
 
-        if (FilmeController.existeFilme(idFilme)) {
+        if (FilmeController.existeRegistro(idFilme)) {
             try (Connection conn = Database.conectar();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -106,10 +106,10 @@ public class FilmeController {
         }
     }
 
-    public static boolean atualizarFilme (Filme filme) {
+    public static boolean atualizarRegistro (Filme filme) {
         String sql = "UPDATE filme SET nome_filme = ?, preco = ? WHERE id_filme = ?;";
 
-        if (FilmeController.existeFilme(filme.getIdFilme())) {
+        if (FilmeController.existeRegistro(filme.getIdFilme())) {
             try (Connection conn = Database.conectar();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -132,8 +132,8 @@ public class FilmeController {
         }
     }
     
-    public static Filme buscarFilmePorId (int idFilmePesquisa) {
-        if (FilmeController.existeFilme(idFilmePesquisa)) {
+    public static Filme buscarRegistroPorId (int idFilmePesquisa) {
+        if (FilmeController.existeRegistro(idFilmePesquisa)) {
             String sql = "SELECT * FROM filme WHERE id_filme = ?";
     
             // Inicialização com valores irreais
@@ -167,7 +167,7 @@ public class FilmeController {
 
     }
 
-    public static LinkedList<Filme> listarTodosFilmes () {
+    public static LinkedList<Filme> listarTodosRegistros () {
         LinkedList<Filme> listaResgistros = new LinkedList<Filme>();
         String sql = "SELECT * FROM filme";
 
@@ -213,7 +213,7 @@ public class FilmeController {
         }
     }
 
-    public static boolean existeFilme (int idFilme) {
+    public static boolean existeRegistro (int idFilme) {
         String sql = "SELECT COUNT(id_filme) AS resultado FROM filme WHERE id_filme = ?;";
         int qtdFilme = 0;
 

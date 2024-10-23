@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class CinemaController {
-    public static boolean inserirCinema(Cinema cinema) {
+    public static boolean inserirRegistro(Cinema cinema) {
         String sql = "INSERT INTO cinema (id_cinema, nome_cinema, id_endereco) VALUES (?, ?, ?)";
 
         try (Connection conn = Database.conectar();
@@ -40,10 +40,10 @@ public class CinemaController {
         }
     }
 
-    public static boolean excluirCinema(int idCinema) {
+    public static boolean excluirRegistro(int idCinema) {
         String sql = "DELETE FROM cinema WHERE id_cinema = ?";
 
-        if (CinemaController.existeCinema(idCinema)) {
+        if (CinemaController.existeRegistro(idCinema)) {
             try (Connection conn = Database.conectar();
                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -61,10 +61,10 @@ public class CinemaController {
         }
     }
 
-    public static boolean atualizarCinema(int idCinema, String nome, int idEndereco) {
+    public static boolean atualizarRegistro(int idCinema, String nome, int idEndereco) {
         String sql = "UPDATE cinema SET nome_cinema = ?, id_endereco = ? WHERE id_cinema = ?";
 
-        if (CinemaController.existeCinema(idCinema)) {
+        if (CinemaController.existeRegistro(idCinema)) {
             try (Connection conn = Database.conectar();
                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -87,8 +87,34 @@ public class CinemaController {
         }
     }
 
-    public static Cinema buscarCinemaPorId(int idCinemaPesquisa) {
-        if (CinemaController.existeCinema(idCinemaPesquisa)) {
+    public static boolean atualizarRegistro(Cinema cinema) {
+        String sql = "UPDATE cinema SET nome_cinema = ?, id_endereco = ? WHERE id_cinema = ?";
+
+        if (CinemaController.existeRegistro(cinema.getIdCinema())) {
+            try (Connection conn = Database.conectar();
+                    PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, cinema.getNomeCinema());
+                pstmt.setInt(2, cinema.getEndereco().getIdEndereco());
+                pstmt.setInt(3, cinema.getIdCinema());
+
+                pstmt.executeUpdate();
+
+                return true;
+
+            } catch (SQLException e) {
+                MenuFormatter.msgTerminalERROR(e.getMessage());
+                return false;
+            }
+
+        } else {
+            MenuFormatter.msgTerminalERROR("Cinema não encontrado no Banco de Dados.");
+            return false;
+        }
+    }
+
+    public static Cinema buscarRegistroPorId(int idCinemaPesquisa) {
+        if (CinemaController.existeRegistro(idCinemaPesquisa)) {
             String sql = "SELECT * FROM cinema WHERE id_cinema = ?";
 
             try (Connection conn = Database.conectar();
@@ -102,7 +128,7 @@ public class CinemaController {
                     int idCinema = rs.getInt("id_cinema");
                     String nome = rs.getString("nome_cinema");
                     int idEndereco = rs.getInt("id_endereco");
-                    return new Cinema(idCinema, nome, EnderecoController.buscarEnderecoPorId(idEndereco));
+                    return new Cinema(idCinema, nome, EnderecoController.buscarRegistroPorId(idEndereco));
                 }
             } catch (SQLException e) {
                 MenuFormatter.msgTerminalERROR(e.getMessage());
@@ -113,7 +139,7 @@ public class CinemaController {
         return null;
     }
 
-    public static LinkedList<Cinema> listarTodosCinemas() {
+    public static LinkedList<Cinema> listarTodosRegistros () {
         LinkedList<Cinema> listaCinemas = new LinkedList<>();
         String sql = "SELECT * FROM cinema";
         
@@ -124,7 +150,7 @@ public class CinemaController {
                 int idCinema = rs.getInt("id_cinema");
                 String nome = rs.getString("nome_cinema");
                 int idEndereco = rs.getInt("id_endereco");
-                listaCinemas.add(new Cinema(idCinema, nome, EnderecoController.buscarEnderecoPorId(idEndereco)));
+                listaCinemas.add(new Cinema(idCinema, nome, EnderecoController.buscarRegistroPorId(idEndereco)));
             }
         } catch (SQLException e) {
             MenuFormatter.msgTerminalERROR(e.getMessage());
@@ -132,7 +158,7 @@ public class CinemaController {
         return listaCinemas;
     }
 
-    public static boolean existeCinema(int idCinema) {
+    public static boolean existeRegistro(int idCinema) {
         String sql = "SELECT COUNT(id_cinema) AS resultado FROM cinema WHERE id_cinema = ?;";
         int qtdCinema = 0;
 
@@ -178,7 +204,6 @@ public class CinemaController {
             return -999;
         }
     }
-
 
     public static int contarRegistros () {
         try (Connection conn = Database.conectar();

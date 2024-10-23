@@ -2,11 +2,6 @@ package utils;
 
 import java.io.IOException;
 
-import controllers.CinemaController;
-import controllers.EnderecoController;
-import controllers.FilmeController;
-import controllers.SecaoController;
-import controllers.VendaController;
 
 public class MenuFormatter {
     private static int numEspacamentoUni = 16;
@@ -141,33 +136,6 @@ public class MenuFormatter {
 	        e.printStackTrace();
 	    }
 	}
-    
-    public static void splashScreen() {
-        String[] nomeTabelas = {"Endereços", "Cinemas", "Filmes", "Seções", "Vendas"};
-        String[] qtdRegistrosTabelas = {
-            Integer.toString(EnderecoController.contarRegistros()),
-            Integer.toString(CinemaController.contarRegistros()),
-            Integer.toString(FilmeController.contarRegistros()),
-            Integer.toString(SecaoController.contarRegistros()),
-            Integer.toString(VendaController.contarRegistros())
-        };
-
-        MenuFormatter.titulo("Venda de Seções");
-        MenuFormatter.centralizar(" // Total de Registros Existentes \\\\ ");
-        System.out.println(MenuFormatter.criaTabelaCompleta(nomeTabelas, qtdRegistrosTabelas));
-
-        System.out.println("\n");
-
-        System.out.println("Craido por:                      |");
-        System.out.println("  Davi Tambara Rodrigues         |    Disciplina:  BANCO DE DADOS");
-        System.out.println("  Samuel Eduardo Rocha de Souza  |    Professor:   Howard Roatti");
-        System.out.println("  Thiago Holz Coutinho           |");
-
-        System.out.println("");
-        MenuFormatter.centralizar("2024/2");
-
-        MenuFormatter.linha();
-    }
 
     // Número do Espaçamento Unitário
     public static int getNumEspacamentoUni() {
@@ -185,7 +153,4 @@ public class MenuFormatter {
         MenuFormatter.caracteres = caracteres;
     }
 
-    public static void main(String[] args) {
-        splashScreen();
-    }
 }

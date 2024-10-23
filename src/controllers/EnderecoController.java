@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class EnderecoController {
-    public static boolean inserirEndereco (Endereco endereco) {
+    public static boolean inserirRegistro (Endereco endereco) {
         String sql = "INSERT INTO endereco (id_endereco, numero, rua, bairro, cidade, uf) VALUES (?, ?, ?, ?, ?, ?);";
 
         try (Connection conn = Database.conectar();
@@ -44,10 +44,10 @@ public class EnderecoController {
         }
     }
     
-    public static boolean excluirEndereco (int idEndereco) {
+    public static boolean excluirRegistro (int idEndereco) {
         String sql = "DELETE FROM endereco WHERE id_endereco = ?;";
 
-        if (EnderecoController.existeEndereco(idEndereco)) {
+        if (EnderecoController.existeRegistro(idEndereco)) {
             try (Connection conn = Database.conectar();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -83,10 +83,10 @@ public class EnderecoController {
             }
     }
 
-    public static boolean atualizarEndereco (int idEndereco, int numero, String rua, String bairro, String cidade, String uf) {
+    public static boolean atualizarRegistro (int idEndereco, int numero, String rua, String bairro, String cidade, String uf) {
         String sql = "UPDATE endereco SET numero = ?, rua = ?, bairro = ?, cidade = ?, uf = ? WHERE id_endereco = ?;";
 
-        if (EnderecoController.existeEndereco(idEndereco)) {
+        if (EnderecoController.existeRegistro(idEndereco)) {
             try (Connection conn = Database.conectar();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -111,9 +111,38 @@ public class EnderecoController {
             return false;
         }
     }
+
+    public static boolean atualizarRegistro (Endereco endereco) {
+        String sql = "UPDATE endereco SET numero = ?, rua = ?, bairro = ?, cidade = ?, uf = ? WHERE id_endereco = ?;";
+
+        if (EnderecoController.existeRegistro(endereco.getIdEndereco())) {
+            try (Connection conn = Database.conectar();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+                pstmt.setInt(1, endereco.getNumero());
+                pstmt.setString(2, endereco.getRua());
+                pstmt.setString(3, endereco.getBairro());
+                pstmt.setString(4, endereco.getCidade());
+                pstmt.setString(5, endereco.getUf());
+                pstmt.setInt(6, endereco.getIdEndereco());
+
+            pstmt.executeUpdate();
+
+            return true;
+            
+            } catch (SQLException e) {
+                MenuFormatter.msgTerminalERROR(e.getMessage());
+                return false;
+            }
+            
+        } else {
+            MenuFormatter.msgTerminalERROR("Endereço não encontrado no Banco de Dados.");
+            return false;
+        }
+    }
     
-    public static Endereco buscarEnderecoPorId (int idEnderecoPesquisa) {
-        if (EnderecoController.existeEndereco(idEnderecoPesquisa)) {
+    public static Endereco buscarRegistroPorId (int idEnderecoPesquisa) {
+        if (EnderecoController.existeRegistro(idEnderecoPesquisa)) {
             String sql = "SELECT * FROM endereco WHERE id_endereco = ?";
     
             // Inicialização com valores irreais
@@ -149,7 +178,7 @@ public class EnderecoController {
 
     }
 
-    public static LinkedList<Endereco> listarTodosEnderecos () {
+    public static LinkedList<Endereco> listarTodosRegistros () {
         LinkedList<Endereco> listaResgistros = new LinkedList<Endereco>();
         String sql = "SELECT * FROM endereco";
 
@@ -197,7 +226,7 @@ public class EnderecoController {
         }
     }
 
-    public static boolean existeEndereco (int idEndereco) {
+    public static boolean existeRegistro (int idEndereco) {
         String sql = "SELECT COUNT(id_endereco) AS resultado FROM endereco WHERE id_endereco = ?;";
         int qtdEndereco = 0;
 
@@ -243,33 +272,4 @@ public class EnderecoController {
             return -999;
         }
     }
-
-    // Teste da Classe
-    public static void main(String[] args) {
-        // Adiciona 2 novos Enderecos
-        EnderecoController.inserirEndereco(new Endereco(85, "AquelaRua8", "AqueleBairro8", "AquelaCidade8", "UF"));
-        EnderecoController.inserirEndereco(new Endereco(95, "AquelaRua9", "AqueleBairro9", "AquelaCidade9", "UF"));
-
-        // Altera o Endereço de ID 1
-        EnderecoController.atualizarEndereco(5, 85, "RuaTeste", "BairroTeste", "CidadeTeste", "ES");
-        
-        // Exclui o Endereco de ID 2
-        EnderecoController.excluirEndereco(2);
-
-        // Pesquisa pelo endereco de ID 2 caso for encontrado, imprime ele na tela com o toString();
-        Endereco teste = EnderecoController.buscarEnderecoPorId(5);
-        if (teste != null) {
-            System.out.println(teste.toString());
-            MenuFormatter.linha();
-        }
-        
-        // Lista todos os registros da tabela com o toString()
-        LinkedList<Endereco> listaTeste = listarTodosEnderecos();
-        for (int i = 0; i < listaTeste.size(); i++) {
-            System.out.println(listaTeste.get(i).toString());
-        }
-
-        // System.out.println(EnderecoController.excluirTodosRegistros());
-    }
-
 }

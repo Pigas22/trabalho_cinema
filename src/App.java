@@ -18,6 +18,7 @@ public class App {
            opcao = scanner.nextInt();
 
            MenuFormatter.limparTerminal();
+           Menu.splashScreen();
             
            if (opcao == 1) {
                 Menu.exibirRelatorio();
@@ -27,6 +28,7 @@ public class App {
                 int opcaoInserir = scanner.nextInt();
 
                 MenuFormatter.limparTerminal();
+                Menu.splashScreen();
 
                 switch (opcaoInserir) {
                     case 1:
@@ -51,14 +53,43 @@ public class App {
 
            } else if (opcao == 3) {
                Menu.imprimirMenuAlterarRegistro();
+               int opcaoAlterar = scanner.nextInt();
                               
                MenuFormatter.limparTerminal();
+               Menu.splashScreen();
+
+               switch (opcaoAlterar) {
+                case 1:
+                    Menu.menuAlterarCinema();
+                    break;
+                
+                case 2:
+                    Menu.menuAlterarEndereco();
+                    break;
+                
+                case 3:
+                    Menu.menuAlterarFilme();
+                    break;
+                
+                case 4:
+                    Menu.menuAlterarSecao();
+                    break;
+                
+                case 5:
+                    Menu.menuAlterarVenda();
+                    break;
+            
+                default:
+                    break;
+            }
+
 
            } else if (opcao == 4) {
                 Menu.imprimirMenuRemoverRegistro();
                 int opcaoRemover = scanner.nextInt();
 
                 MenuFormatter.limparTerminal();
+                Menu.splashScreen();
 
                 switch (opcaoRemover) {
                     case 1:
@@ -75,6 +106,7 @@ public class App {
            }
 
            MenuFormatter.limparTerminal();
+           Menu.splashScreen();
 
         } while (opcao != 0);
 

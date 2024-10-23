@@ -1,24 +1,24 @@
 -- Inserts para a tabela endereco
 INSERT INTO endereco VALUES
-    (1, '100',  'Rua das Flores',       'Centro',     'São Paulo',      'SP'),
+    (1, '100',  'Rua das Flores',       'Centro',     'Sao Paulo',      'SP'),
     (2, '200',  'Avenida Brasil',       'Copacabana', 'Rio de Janeiro', 'RJ'),
     (3, '300',  'Rua XV de Novembro',   'Centro',     'Curitiba',       'PR'),
-    (4, '50',   'Praça da Sé',          'Sé',         'São Paulo',      'SP'),
+    (4, '50',   'Praça da Se',          'Se',         'Sao Paulo',      'SP'),
     (5, '150',  'Rua Sete de Setembro', 'Centro',     'Porto Alegre',   'RS'),
-    (6, '1000', 'Avenida Paulista',     'Bela Vista', 'São Paulo',      'SP');
+    (6, '1000', 'Avenida Paulista',     'Bela Vista', 'Sao Paulo',      'SP');
 
 -- Inserts para a tabela filme
 INSERT INTO filme VALUES
-    (1, 'O Poderoso Chefão', 19.99),
+    (1, 'O Poderoso Chefao', 19.99),
     (2, 'Matrix',            14.50),
-    (3, 'Senhor dos Anéis',  18.75),
+    (3, 'Senhor dos Aneis',  18.75),
     (4, 'Inception',         17.99),
     (5, 'Avatar',            21.00),
     (6, 'Titanic',           15.30),
     (7, 'Gladiador',         16.50),
     (8, 'Jurassic Park',     13.90),
     (9, 'Star Wars',         20.00),
-    (10, 'O Rei Leão',       12.80);
+    (10, 'O Rei Leao',       12.80);
 
 -- Inserts para a tabela cinema
 INSERT INTO cinema VALUES
@@ -53,43 +53,43 @@ INSERT INTO secao VALUES
 -- Inserts para a tabela venda
 INSERT INTO venda VALUES
     -- Vendas para a seção 1
-    (1, 'João Silva',     1, 'Cartão de Crédito',     1),
+    (1, 'João Silva',     1, 'Cartao de Credito',     1),
     (2, 'Maria Oliveira', 2, 'Dinheiro',              1),
-    (3, 'Carlos Pereira', 3, 'Cartão de Débito',      1),
+    (3, 'Carlos Pereira', 3, 'Cartao de Debito',      1),
     (4, 'Ana Santos',     4, 'Pix',                   1),
-    (5, 'Fernanda Costa', 5, 'Cartão de Crédito',     1),
+    (5, 'Fernanda Costa', 5, 'Cartao de Credito',     1),
 
     -- Vendas para a seção 2
     (6,  'Roberto Almeida', 1, 'Dinheiro',             2),
-    (7,  'Patrícia Lima',   2, 'Cartão de Débito',     2),
+    (7,  'Patricia Lima',   2, 'Cartao de Debito',     2),
     (8,  'Lucas Martins',   3, 'Pix',                  2),
-    (9,  'Cláudia Rocha',   4, 'Cartão de Crédito',    2),
+    (9,  'Cláudia Rocha',   4, 'Cartao de Credito',    2),
     (10, 'Mariana Gomes',   5, 'Dinheiro',             2),
 
     -- Vendas para a seção 3
-    (11, 'Ricardo Dias',     1, 'Cartão de Crédito',  3),
+    (11, 'Ricardo Dias',     1, 'Cartao de Credito',  3),
     (12, 'Tatiane Ferreira', 2, 'Dinheiro',           3),
-    (13, 'Felipe Cardoso',   3, 'Cartão de Débito',   3),
+    (13, 'Felipe Cardoso',   3, 'Cartao de Debito',   3),
     (14, 'Juliana Pires',    4, 'Pix',                3),
-    (15, 'Eduardo Almeida',  5, 'Cartão de Crédito',  3),
+    (15, 'Eduardo Almeida',  5, 'Cartao de Credito',  3),
 
     -- Vendas para a seção 4
     (16, 'Renato Martins',    1, 'Dinheiro',          4),
-    (17, 'Viviane Souza',     2, 'Cartão de Débito',  4),
+    (17, 'Viviane Souza',     2, 'Cartao de Debito',  4),
     (18, 'Hugo Alves',        3, 'Pix',               4),
-    (19, 'Priscila Ferreira', 4, 'Cartão de Crédito', 4),
+    (19, 'Priscila Ferreira', 4, 'Cartao de Credito', 4),
     (20, 'Gustavo Rocha',     5, 'Dinheiro',          4),
     
     -- Vendas para a seção 5
-    (21, 'Bianca Silva',    1, 'Cartão de Crédito',   5),
+    (21, 'Bianca Silva',    1, 'Cartao de Credito',   5),
     (22, 'Daniel Oliveira', 2, 'Dinheiro',            5),
-    (23, 'Marcos Santos',   3, 'Cartão de Débito',    5),
+    (23, 'Marcos Santos',   3, 'Cartao de Debito',    5),
     (24, 'Camila Costa',    4, 'Pix',                 5),
-    (25, 'André Lima',      5, 'Cartão de Crédito',   5),
+    (25, 'Andre Lima',      5, 'Cartao de Credito',   5),
 
     -- Vendas para a seção 6
     (26, 'Paula Almeida',    1, 'Dinheiro',           6),
-    (27, 'Vinícius Martins', 2, 'Cartão de Débito',   6),
+    (27, 'Vinicius Martins', 2, 'Cartao de Debito',   6),
     (28, 'Tatiane Rocha',    3, 'Pix',                6),
-    (29, 'Luana Pires',      4, 'Cartão de Crédito',  6),
+    (29, 'Luana Pires',      4, 'Cartao de Credito',  6),
     (30, 'Leonardo Dias',    5, 'Dinheiro',           6);

@@ -124,6 +124,7 @@ public class Menu {
 
         System.out.println("Digite o nome do Filme: ");
         String nome = scanner.nextLine();
+        System.out.println("");
         System.out.println("Digite o preço do Filme: ");
         Double preco = scanner.nextDouble();
 
@@ -255,8 +256,6 @@ public class Menu {
             System.out.println(endereco.getIdEndereco() + ": " + endereco.getCidade() + ": " + endereco.getBairro() + ": " + endereco.getCidade());
         }
 
-
-        System.out.print("Digite aqui: ");
         int idEndereco = scanner.nextInt();
         Endereco enderecoSelecionado = null;
         for (Endereco endereco : enderecos) {

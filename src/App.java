@@ -47,20 +47,25 @@ public class App {
             if (opcao == 1) {
                 Menu.imprimirMenuRelatorio();
                 int opcaoRelatorio = scanner.nextInt();
+                String relatorio = "";
 
+                MenuFormatter.limparTerminal();
+                MenuFormatter.titulo("RELATÓRIO");
                 switch (opcaoRelatorio) {
                     case 1:
-                        Relatorio.listarCinemaEndereco();
+                        relatorio = Relatorio.listarCinemaEndereco();
                         break;
                     case 2:
-                        Relatorio.listarInformacoes();
+                        relatorio = Relatorio.listarInformacoes();
                         break;
                     case 3:
-                        Relatorio.listarSomaIngressos();
+                        relatorio = Relatorio.listarSomaIngressos();
                         break;
                     default:
                         break;
                 }
+
+                System.out.println(relatorio);
 
                 MenuFormatter.delay(3);
 
@@ -153,9 +158,7 @@ public class App {
                     }
             }
 
-            MenuFormatter.limparTerminal();
-            Menu.splashScreen();
-
+            MenuFormatter.limparTerminal();        
         } while (opcao != 0);
 
         MenuFormatter.msgTerminalINFO("Encerrando o sistema.");

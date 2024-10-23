@@ -70,6 +70,9 @@ public class Menu {
 
     
     public static void menuInserirEndereco() {
+
+        MenuFormatter.titulo("INSERIR - ENDEREÇO");
+
         System.out.print("Digite o número: ");
         int numero = scanner.nextInt();
         scanner.nextLine();
@@ -88,17 +91,17 @@ public class Menu {
     }
 
     public static void menuInserirCinema() {
-        MenuFormatter.titulo("INSERIR - CINEMA");
-
-        System.out.print ("Digite o nome: ");
-        String nome = scanner.nextLine();
-
         List<Endereco> enderecos =  EnderecoController.listarTodosEnderecos();
         if (enderecos.isEmpty()) {
             MenuFormatter.msgTerminalERROR("Nenhum endereço disponível. Por favor, insira um endereço antes.");
             return;
         }
+        
+        MenuFormatter.titulo("INSERIR - CINEMA");
 
+        System.out.print ("Digite o nome: ");
+        String nome = scanner.nextLine();
+        
         for (Endereco endereco : enderecos) {
             System.out.println(endereco.getIdEndereco() + ": " + endereco.getRua() + ", " + endereco.getBairro() + ", " + endereco.getCidade() + " - " + endereco.getUf());
         }
@@ -116,7 +119,9 @@ public class Menu {
     }
 
     public static void menuInserirFilme() {
-        scanner.nextLine();
+
+        MenuFormatter.titulo("INSERIR - FILME");
+
         System.out.println("Digite o nome do Filme: ");
         String nome = scanner.nextLine();
         System.out.println("Digite o preço do Filme: ");
@@ -129,6 +134,9 @@ public class Menu {
     }
 
     public static void menuInserirSecao() {
+
+        MenuFormatter.titulo("INSERIR - SEÇÃO");
+
         List<Cinema> cinemas = CinemaController.listarTodosCinemas();
         if (cinemas.isEmpty()) {
             System.out.println("Nenhum cinema disponível. Por favor, insira um cinema antes.");
@@ -193,6 +201,9 @@ public class Menu {
     }
     
     public static void menuInserirVenda() {
+
+        MenuFormatter.titulo("INSERIR - VENDAS");
+
     List<Secao> secaos = SecaoController.listarTodosSecaos();
     if (secaos.isEmpty()) {
         System.out.println("Nenhuma seção disponível. Por favor, insira uma seção antes.");
@@ -233,7 +244,9 @@ public class Menu {
 
     // metodos para remover
     public static void menuRemoverEndereco() {
-        scanner.nextLine();
+
+        MenuFormatter.titulo("REMOVER - ENDEREÇO");
+
         List<Endereco> enderecos = EnderecoController.listarTodosEnderecos();
         if (enderecos.isEmpty()) {
             System.out.println("Nenhum endereço disponível. Por favor, insira um endereço antes.");
@@ -262,7 +275,9 @@ public class Menu {
     }
 
     public static void menuRemoverCinema(){
-        scanner.nextLine();
+
+        MenuFormatter.titulo("REMOVER - CINEMA");
+
         List<Cinema> cinemas = CinemaController.listarTodosCinemas();
         if (cinemas.isEmpty()) {
             System.out.println("Nenhum cinema disponível. Por favor, insira um cinema antes.");
@@ -290,6 +305,100 @@ public class Menu {
         CinemaController.excluirCinema(idCinema);
 
     }
+
+    public static void menuRemoverFilme() {
+
+        MenuFormatter.titulo("REMOVER - FILME");
+
+        List<Filme> filmes = FilmeController.listarTodosFilmes();
+        if (filmes.isEmpty()) {
+            System.out.println("Nenhum filme disponível. Por favor, insira um filme antes.");
+            return;
+        }
+    
+        System.out.println("Escolha um Filme pelo ID:");
+        for (Filme filme : filmes) {
+            System.out.println(filme.getIdFilme() + ": " + filme.getNomeFilme());
+        }
+    
+        int idFilme = scanner.nextInt();
+        Filme filmeSelecionado = null;
+        for (Filme filme : filmes) {
+            if (filme.getIdFilme() == idFilme) {
+                filmeSelecionado = filme;
+            }
+        }
+    
+        if (filmeSelecionado == null) {
+            System.out.println("ID de filme inválido.");
+            return;
+        }
+    
+        FilmeController.excluirFilme(idFilme);
+    }
+
+    public static void menuRemoverSecao() {
+
+        MenuFormatter.titulo("REMOVER - SEÇÃO");
+
+        List<Secao> secoes = SecaoController.listarTodosSecaos();
+        if (secoes.isEmpty()) {
+            System.out.println("Nenhuma sessão disponível. Por favor, insira uma sessão antes.");
+            return;
+        }
+    
+        System.out.println("Escolha uma Sessão pelo ID:");
+        for (Secao secao : secoes) {
+            System.out.println(secao.getIdSecao() + ": " + secao.getCinema().getNomeCinema() + " - " + secao.getFilme().getNomeFilme() + " - " + secao.getHorario());
+        }
+    
+        int idSecao = scanner.nextInt();
+        Secao secaoSelecionada = null;
+        for (Secao secao : secoes) {
+            if (secao.getIdSecao() == idSecao) {
+                secaoSelecionada = secao;
+            }
+        }
+    
+        if (secaoSelecionada == null) {
+            System.out.println("ID de sessão inválido.");
+            return;
+        }
+    
+        SecaoController.excluirSecao(idSecao);
+    }
+
+    public static void menuRemoverVenda() {
+
+        MenuFormatter.titulo("REMOVER - VENDA");
+
+        List<Venda> vendas = VendaController.listarTodosVendas();
+        if (vendas.isEmpty()) {
+            System.out.println("Nenhuma venda disponível. Por favor, insira uma venda antes.");
+            return;
+        }
+    
+        System.out.println("Escolha uma Venda pelo ID:");
+        for (Venda venda : vendas) {
+            System.out.println(venda.getIdVenda() + ": Cliente: " + venda.getNomeCliente() + ", Sessão: " + venda.getSecao().getHorario() + ", Assento: " + venda.getAssento());
+        }
+    
+        int idVenda = scanner.nextInt();
+        Venda vendaSelecionada = null;
+        for (Venda venda : vendas) {
+            if (venda.getIdVenda() == idVenda) {
+                vendaSelecionada = venda;
+            }
+        }
+    
+        if (vendaSelecionada == null) {
+            System.out.println("ID de venda inválido.");
+            return;
+        }
+    
+       VendaController.excluirVenda(idVenda);
+    }
+    
 
     public static void exibirRelatorio() {
         LinkedList<String> cinemaEndereco = Relatorio.listarCinemaEndereco();

@@ -51,8 +51,30 @@ public class App {
 
            } else if (opcao == 3) {
                Menu.imprimirMenuAlterarRegistro();
+               int opcaoAlterar = scanner.nextInt();
                               
                MenuFormatter.limparTerminal();
+
+               switch (opcaoAlterar) {
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        
+                        break;
+                    case 3:
+                        
+                        break;
+                    case 4:
+                        
+                        break;
+                    case 5:
+                        
+                        break;
+                
+                    default:
+                        break;
+               }
 
            } else if (opcao == 4) {
                 Menu.imprimirMenuRemoverRegistro();
@@ -64,9 +86,17 @@ public class App {
                     case 1:
                         Menu.menuRemoverCinema();
                         break;
-                    
                     case 2:
                         Menu.menuRemoverEndereco();
+                        break;
+                    case 3:
+                        Menu.menuRemoverFilme();
+                        break;
+                    case 4:
+                        Menu.menuRemoverSecao();
+                        break;
+                    case 5:
+                        Menu.menuRemoverVenda();
                         break;
                 
                     default:

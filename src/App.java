@@ -3,8 +3,6 @@ import java.util.Scanner;
 
 import conexion.Database;
 
-import java.util.LinkedList;
-
 import utils.*;
 import reports.*;
 
@@ -14,115 +12,149 @@ import reports.*;
 public class App {
     
     public static void main(String[] args) throws IOException, InterruptedException {
-        Database.droparDatabase();
-        Database.criarDatabase();
-        Database.inicializarDatabase();
-        
-        Arquivo.setLog(false);
         Scanner scanner = new Scanner(System.in);
+        Arquivo.setLog(false);
+
+
+        MenuFormatter.titulo("CONFIGURAÇÕES");
+        System.out.print("| Deseja reiniciar os dados do Banco?" 
+                        + "\n" + "[ 0 ] - Não"
+                        + "\n" + "[ 1 ] - Sim"
+                        + "\n" + MenuFormatter.getLinha("-=")
+                        + "\n" + "Escolha uma opção: ");
+        int opcaoConfig = scanner.nextInt();
+
+        if (opcaoConfig == 1) {
+            Database.droparDatabase();
+            Database.criarDatabase();
+            Database.inicializarDatabase();
+    
+            MenuFormatter.delay(2);
+        }
+    
+        MenuFormatter.limparTerminal();
+
 
         int opcao;
         do {
-           Menu.imprimirMenu();
-           opcao = scanner.nextInt();
+            Menu.splashScreen();
+            Menu.imprimirMenu();
+            opcao = scanner.nextInt();
 
-           MenuFormatter.limparTerminal();
-           Menu.splashScreen();
+            MenuFormatter.limparTerminal();
+            Menu.splashScreen();
             
-           if (opcao == 1) {
-                Menu.exibirRelatorio();
+            if (opcao == 1) {
+                Menu.imprimirMenuRelatorio();
+                int opcaoRelatorio = scanner.nextInt();
 
-           } else if (opcao == 2) {
-                Menu.imprimirMenuInserirRegistro();
-                int opcaoInserir = scanner.nextInt();
+                switch (opcaoRelatorio) {
+                    case 1:
+                        Relatorio.listarCinemaEndereco();
+                        break;
+                    case 2:
+                        Relatorio.listarInformacoes();
+                        break;
+                    case 3:
+                        Relatorio.listarSomaIngressos();
+                        break;
+                    default:
+                        break;
+                }
 
+                MenuFormatter.delay(3);
+
+            } else if (opcao == 2) {
+                    Menu.imprimirMenuInserirRegistro();
+                    int opcaoInserir = scanner.nextInt();
+
+                    MenuFormatter.limparTerminal();
+                    Menu.splashScreen();
+
+                    switch (opcaoInserir) {
+                        case 1:
+                            Menu.menuInserirCinema();
+                            break;
+                        case 2:
+                            Menu.menuInserirEndereco();
+                            break;
+                        case 3:
+                            Menu.menuInserirFilme();
+                            break;
+                        case 4:
+                            Menu.menuInserirSecao();
+                            break;
+                        case 5:
+                            Menu.menuInserirVenda();
+                            break;
+                    
+                        default:
+                            break;
+                    }
+
+            } else if (opcao == 3) {
+                Menu.imprimirMenuAlterarRegistro();
+                int opcaoAlterar = scanner.nextInt();
+                                
                 MenuFormatter.limparTerminal();
                 Menu.splashScreen();
 
-                switch (opcaoInserir) {
+                switch (opcaoAlterar) {
                     case 1:
-                        Menu.menuInserirCinema();
+                        Menu.menuAlterarCinema();
                         break;
+                    
                     case 2:
-                        Menu.menuInserirEndereco();
+                        Menu.menuAlterarEndereco();
                         break;
+                    
                     case 3:
-                        Menu.menuInserirFilme();
+                        Menu.menuAlterarFilme();
                         break;
+                    
                     case 4:
-                        Menu.menuInserirSecao();
+                        Menu.menuAlterarSecao();
                         break;
+                    
                     case 5:
-                        Menu.menuInserirVenda();
+                        Menu.menuAlterarVenda();
                         break;
                 
                     default:
                         break;
                 }
 
-           } else if (opcao == 3) {
-               Menu.imprimirMenuAlterarRegistro();
-               int opcaoAlterar = scanner.nextInt();
-                              
-               MenuFormatter.limparTerminal();
-               Menu.splashScreen();
+            } else if (opcao == 4) {
+                    Menu.imprimirMenuRemoverRegistro();
+                    int opcaoRemover = scanner.nextInt();
 
-               switch (opcaoAlterar) {
-                case 1:
-                    Menu.menuAlterarCinema();
-                    break;
-                
-                case 2:
-                    Menu.menuAlterarEndereco();
-                    break;
-                
-                case 3:
-                    Menu.menuAlterarFilme();
-                    break;
-                
-                case 4:
-                    Menu.menuAlterarSecao();
-                    break;
-                
-                case 5:
-                    Menu.menuAlterarVenda();
-                    break;
-            
-                default:
-                    break;
+                    MenuFormatter.limparTerminal();
+                    Menu.splashScreen();
+
+                    switch (opcaoRemover) {
+                        case 1:
+                            Menu.menuRemoverCinema();
+                            break;
+                        case 2:
+                            Menu.menuRemoverEndereco();
+                            break;
+                        case 3:
+                            Menu.menuRemoverFilme();
+                            break;
+                        case 4:
+                            Menu.menuRemoverSecao();
+                            break;
+                        case 5:
+                            Menu.menuRemoverVenda();
+                            break;
+                    
+                        default:
+                            break;
+                    }
             }
 
-           } else if (opcao == 4) {
-                Menu.imprimirMenuRemoverRegistro();
-                int opcaoRemover = scanner.nextInt();
-
-                MenuFormatter.limparTerminal();
-                Menu.splashScreen();
-
-                switch (opcaoRemover) {
-                    case 1:
-                        Menu.menuRemoverCinema();
-                        break;
-                    case 2:
-                        Menu.menuRemoverEndereco();
-                        break;
-                    case 3:
-                        Menu.menuRemoverFilme();
-                        break;
-                    case 4:
-                        Menu.menuRemoverSecao();
-                        break;
-                    case 5:
-                        Menu.menuRemoverVenda();
-                        break;
-                
-                    default:
-                        break;
-                }
-           }
-
-           MenuFormatter.limparTerminal();
-           Menu.splashScreen();
+            MenuFormatter.limparTerminal();
+            Menu.splashScreen();
 
         } while (opcao != 0);
 
@@ -130,67 +162,4 @@ public class App {
 
         scanner.close();
     }
-    public static void exibirRelatorio(Scanner scanner) {
-    System.out.println("Escolha um relatório para exibir:");
-    System.out.println("1. Cinema e Endereço");
-    System.out.println("2. Informações");
-    System.out.println("3. Soma dos Ingressos");
-    System.out.print("Digite sua opção (1-3): ");
-    int opcaoRelatorio = scanner.nextInt();
-
-    switch (opcaoRelatorio) {
-        case 1:
-            mostrarCinemaEndereco();
-            break;
-        case 2:
-            mostrarInformacoes();
-            break;
-        case 3:
-            mostrarSomaIngressos();
-            break;
-        default:
-            System.out.println("Opção inválida. Tente novamente.");
-            break;
-    }
-}
-
-private static void mostrarCinemaEndereco() {
-    LinkedList<String> cinemaEndereco = Relatorio.listarCinemaEndereco();
-    
-    System.out.println("=== Cinema e Endereço ===");
-    if (cinemaEndereco != null && !cinemaEndereco.isEmpty()) {
-        for (String registro : cinemaEndereco) {
-            System.out.println(registro);
-        }
-    } else {
-        System.out.println("Nenhum cinema encontrado.");
-    }
-}
-
-private static void mostrarInformacoes() {
-    LinkedList<String> informacoes = Relatorio.listarInformacoes();
-
-    System.out.println("\n=== Informações ===");
-    if (informacoes != null && !informacoes.isEmpty()) {
-        for (String registro : informacoes) {
-            System.out.println(registro);
-        }
-    } else {
-        System.out.println("Nenhuma informação encontrada.");
-    }
-}
-
-private static void mostrarSomaIngressos() {
-    LinkedList<String> soma = Relatorio.listarSoma();
-
-    System.out.println("\n=== Soma dos Ingressos ===");
-    if (soma != null && !soma.isEmpty()) {
-        for (String registro : soma) {
-            System.out.println(registro);
-        }
-    } else {
-        System.out.println("Nenhuma soma encontrada.");
-    }
-}
-
 }

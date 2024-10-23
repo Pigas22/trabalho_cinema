@@ -2,10 +2,8 @@ package utils;
 
 import controllers.*;
 import models.*;
-import reports.Relatorio;
 
 import java.util.List;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 import java.sql.Timestamp;
@@ -68,7 +66,18 @@ public class Menu {
         System.out.print("Escolha uma opção: ");
     }
 
-    
+    public static void imprimirMenuRelatorio() {
+        System.out.println("==================================");
+        System.out.println("|       ESCOLHER RELATÓRIO       |");
+        System.out.println("==================================");
+        System.out.println("| 1. Cinema e Endereço           |");
+        System.out.println("| 2. Informações                 |");
+        System.out.println("| 3. Soma dos Ingressos          |");
+        System.out.println("==================================");
+        System.out.print("Escolha uma opção: ");    
+    }
+
+    // Métodos para Inserir
     public static void menuInserirEndereco() {
 
         MenuFormatter.titulo("INSERIR - ENDEREÇO");
@@ -239,7 +248,6 @@ public class Menu {
         VendaController.inserirVenda(new Venda(nome, assento, formaPagamento, secaoSelecionado));
 }
 
-
     // metodos para remover
     public static void menuRemoverEndereco() {
         MenuFormatter.titulo("REMOVER - ENDEREÇO");
@@ -395,46 +403,6 @@ public class Menu {
     
        VendaController.excluirVenda(idVenda);
     }
-    
-
-
-    // metodos para exibir o Relatorio
-    public static void exibirRelatorio() {
-        LinkedList<String> cinemaEndereco = Relatorio.listarCinemaEndereco();
-        LinkedList<String> informacoes = Relatorio.listarInformacoes();
-        LinkedList<String> soma = Relatorio.listarSoma();
-
-        
-        System.out.println("=== Cinema e Endereço ===");
-        if (cinemaEndereco != null && !cinemaEndereco.isEmpty()) {
-            for (String registro : cinemaEndereco) {
-                System.out.println(registro);
-            }
-        } else {
-            System.out.println("Nenhum cinema encontrado.");
-        }
-
-        
-        System.out.println("\n=== Informações ===");
-        if (informacoes != null && !informacoes.isEmpty()) {
-            for (String registro : informacoes) {
-                System.out.println(registro);
-            }
-        } else {
-            System.out.println("Nenhuma informação encontrada.");
-        }
-
-    
-        System.out.println("\n=== Soma dos Ingressos ===");
-        if (soma != null && !soma.isEmpty()) {
-            for (String registro : soma) {
-                System.out.println(registro);
-            }
-        } else {
-            System.out.println("Nenhuma soma encontrada.");
-        }
-    }
-
 
     // metodos para alterar
     public static void menuAlterarCinema() {
@@ -447,6 +415,8 @@ public class Menu {
             System.out.println("ID: " + cinema.getIdCinema() + ", Nome Cinema: " + cinema.getNomeCinema() + ", ID do Endereço: " 
                             + cinema.getEndereco().getIdEndereco() + ", Cidade: " + cinema.getEndereco().getCidade());
         }
+        MenuFormatter.linha();
+
         System.out.print("Escolha o Cinema que deseja alterar pelo ID: ");
         int idEndereco = scanner.nextInt();
         
@@ -480,6 +450,8 @@ public class Menu {
             System.out.println("ID: " + endereco.getIdEndereco() + ", Número: " + endereco.getNumero() + ", Rua: " + endereco.getRua() 
                         + ", Bairro: " + endereco.getBairro() + ", Cidade: " + endereco.getCidade() + ", UF: " + endereco.getUf());
         }
+        MenuFormatter.linha();
+
         System.out.print("Escolha o Endereço que deseja alterar pelo ID: ");
         int idEndereco = scanner.nextInt();
         
@@ -513,9 +485,21 @@ public class Menu {
             return;
         }
 
+        
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        String[] cabecalho = {"ID", "Nome Filme", "Preço"};
+        String[] linhas = new String[FilmeController.contarRegistros()];
+        int cont = 0;
+        
         for (Filme filme : FilmeController.listarTodosRegistros()){
-            System.out.println(filme.getIdFilme() + "  - Nome Filme: " + filme.getNomeFilme() + "  - Preço: " + filme.getPreco());
+            String[] linha = {filme.getIdFilme()+"", filme.getNomeFilme(), filme.getPreco()+""};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
+
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+
         System.out.print("Escolha o Filme que deseja alterar pelo ID: ");
         int idFilme = scanner.nextInt();
         
@@ -528,6 +512,7 @@ public class Menu {
         System.out.print("Nome do Filme: ");
         filmeSelecionado.setNomeFilme(scanner.nextLine());
 
+        scanner.nextLine();
         System.out.print("Preço do Filme: ");
         filmeSelecionado.setPreco(scanner.nextDouble());
 
@@ -626,7 +611,6 @@ public class Menu {
             Integer.toString(VendaController.contarRegistros())
         };
 
-        MenuFormatter.titulo("Venda de Seções");
         MenuFormatter.centralizar(" // Total de Registros Existentes \\\\ ");
         System.out.println(MenuFormatter.criaTabelaCompleta(nomeTabelas, qtdRegistrosTabelas));
 

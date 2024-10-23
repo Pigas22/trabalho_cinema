@@ -106,6 +106,18 @@ public class MenuFormatter {
         return tabela;
     }
 
+    public static String criaTabelaCompleta(String[] colunas, String[] linhas, int tamanho) {
+        String tabela = "";
+        tabela += MenuFormatter.criarLinhaTabela(colunas, tamanho) 
+                + "\n" + MenuFormatter.getLinha("--");
+
+        for (int i = 0; i < linhas.length; i ++) {
+            tabela += "\n" + linhas[i];
+        }
+        
+        return tabela;
+    }
+
     
     public static void limparTerminal() throws IOException, InterruptedException {
         //Limpa a tela no windows, no linux e no MacOS

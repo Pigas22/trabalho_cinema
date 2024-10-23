@@ -296,5 +296,48 @@ public class App {
         CinemaController.excluirCinema(idCinema);
 
     }
+    import reports.Relatorio;
+
+// Dentro do método main
+if (opcao == 1) {
+    exibirRelatorio();
+}
+
+public static void exibirRelatorio() {
+    LinkedList<String> cinemaEndereco = Relatorio.listarCinemaEndereco();
+    LinkedList<String> informacoes = Relatorio.listarInformacoes();
+    LinkedList<String> soma = Relatorio.listarSoma();
+
+    
+    System.out.println("=== Cinema e Endereço ===");
+    if (cinemaEndereco != null && !cinemaEndereco.isEmpty()) {
+        for (String registro : cinemaEndereco) {
+            System.out.println(registro);
+        }
+    } else {
+        System.out.println("Nenhum cinema encontrado.");
+    }
+
+    
+    System.out.println("\n=== Informações ===");
+    if (informacoes != null && !informacoes.isEmpty()) {
+        for (String registro : informacoes) {
+            System.out.println(registro);
+        }
+    } else {
+        System.out.println("Nenhuma informação encontrada.");
+    }
+
+   
+    System.out.println("\n=== Soma dos Ingressos ===");
+    if (soma != null && !soma.isEmpty()) {
+        for (String registro : soma) {
+            System.out.println(registro);
+        }
+    } else {
+        System.out.println("Nenhuma soma encontrada.");
+    }
+}
+
 
 }

@@ -133,6 +133,7 @@ public class Menu {
 
         System.out.println("Digite o nome do Filme: ");
         String nome = scanner.nextLine();
+        System.out.println("");
         System.out.println("Digite o preço do Filme: ");
         Double preco = scanner.nextDouble();
 
@@ -199,7 +200,6 @@ public class Menu {
         Timestamp horario = Timestamp.valueOf(horarioStr);
 
         System.out.println("Digite a quantidade de assentos: ");
-        scanner.nextLine();
         int qtd_assento = scanner.nextInt();
     
         //insira no banco de dados
@@ -294,6 +294,7 @@ public class Menu {
             System.out.println(cinema.getIdCinema() + ": " + cinema.getNomeCinema());
         }
 
+        System.out.print("Digite aqui: ");
         int idCinema = scanner.nextInt();
         Cinema cinemaSelecionado = null;
         for (Cinema cinema : cinemas) {
@@ -326,6 +327,7 @@ public class Menu {
             System.out.println(filme.getIdFilme() + ": " + filme.getNomeFilme());
         }
     
+        System.out.print("Digite aqui: ");
         int idFilme = scanner.nextInt();
         Filme filmeSelecionado = null;
         for (Filme filme : filmes) {
@@ -357,6 +359,7 @@ public class Menu {
             System.out.println(secao.getIdSecao() + ": " + secao.getCinema().getNomeCinema() + " - " + secao.getFilme().getNomeFilme() + " - " + secao.getHorario());
         }
     
+        System.out.print("Digite aqui: ");
         int idSecao = scanner.nextInt();
         Secao secaoSelecionada = null;
         for (Secao secao : secoes) {
@@ -382,12 +385,13 @@ public class Menu {
             System.out.println("Nenhuma venda disponível. Por favor, insira uma venda antes.");
             return;
         }
-    
+        
         System.out.println("Escolha uma Venda pelo ID:");
         for (Venda venda : vendas) {
             System.out.println(venda.getIdVenda() + ": Cliente: " + venda.getNomeCliente() + ", Sessão: " + venda.getSecao().getHorario() + ", Assento: " + venda.getAssento());
         }
-    
+        
+        System.out.print("Digite aqui: ");
         int idVenda = scanner.nextInt();
         Venda vendaSelecionada = null;
         for (Venda venda : vendas) {
@@ -427,6 +431,7 @@ public class Menu {
         }
 
         System.out.print("Nome do Cinema: ");
+        scanner.nextLine();
         cinemaSelecionado.setNomeCinema(scanner.nextLine());
 
         System.out.print("ID do Endereço: ");
@@ -465,6 +470,7 @@ public class Menu {
         enderecoSelecionado.setNumero(scanner.nextInt());
 
         System.out.print("Rua do Endereço: ");
+        scanner.nextLine();
         enderecoSelecionado.setRua(scanner.nextLine());
 
         System.out.print("Bairro do Endereço: ");
@@ -510,6 +516,7 @@ public class Menu {
         }
 
         System.out.print("Nome do Filme: ");
+        scanner.nextLine();
         filmeSelecionado.setNomeFilme(scanner.nextLine());
 
         scanner.nextLine();
@@ -584,6 +591,7 @@ public class Menu {
         }
 
         System.out.print("Nome do Cliente: ");
+        scanner.nextLine();
         vendaSelacionada.setNomeCliente(scanner.nextLine());
 
         System.out.print("Assento: ");

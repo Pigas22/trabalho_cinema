@@ -82,4 +82,67 @@ public class App {
 
         scanner.close();
     }
+    public static void exibirRelatorio(Scanner scanner) {
+    System.out.println("Escolha um relatório para exibir:");
+    System.out.println("1. Cinema e Endereço");
+    System.out.println("2. Informações");
+    System.out.println("3. Soma dos Ingressos");
+    System.out.print("Digite sua opção (1-3): ");
+    int opcaoRelatorio = scanner.nextInt();
+
+    switch (opcaoRelatorio) {
+        case 1:
+            mostrarCinemaEndereco();
+            break;
+        case 2:
+            mostrarInformacoes();
+            break;
+        case 3:
+            mostrarSomaIngressos();
+            break;
+        default:
+            System.out.println("Opção inválida. Tente novamente.");
+            break;
+    }
+}
+
+private static void mostrarCinemaEndereco() {
+    LinkedList<String> cinemaEndereco = Relatorio.listarCinemaEndereco();
+    
+    System.out.println("=== Cinema e Endereço ===");
+    if (cinemaEndereco != null && !cinemaEndereco.isEmpty()) {
+        for (String registro : cinemaEndereco) {
+            System.out.println(registro);
+        }
+    } else {
+        System.out.println("Nenhum cinema encontrado.");
+    }
+}
+
+private static void mostrarInformacoes() {
+    LinkedList<String> informacoes = Relatorio.listarInformacoes();
+
+    System.out.println("\n=== Informações ===");
+    if (informacoes != null && !informacoes.isEmpty()) {
+        for (String registro : informacoes) {
+            System.out.println(registro);
+        }
+    } else {
+        System.out.println("Nenhuma informação encontrada.");
+    }
+}
+
+private static void mostrarSomaIngressos() {
+    LinkedList<String> soma = Relatorio.listarSoma();
+
+    System.out.println("\n=== Soma dos Ingressos ===");
+    if (soma != null && !soma.isEmpty()) {
+        for (String registro : soma) {
+            System.out.println(registro);
+        }
+    } else {
+        System.out.println("Nenhuma soma encontrada.");
+    }
+}
+
 }

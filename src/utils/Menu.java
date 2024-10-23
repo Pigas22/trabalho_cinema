@@ -191,7 +191,6 @@ public class Menu {
         Timestamp horario = Timestamp.valueOf(horarioStr);
 
         System.out.println("Digite a quantidade de assentos: ");
-        scanner.nextLine();
         int qtd_assento = scanner.nextInt();
     
         //insira no banco de dados

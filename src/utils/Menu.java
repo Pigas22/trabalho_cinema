@@ -5,6 +5,8 @@ import models.*;
 
 import java.util.List;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 import java.sql.Timestamp;
 
@@ -258,12 +260,23 @@ public class Menu {
             return;
         }
 
-        System.out.println("Escolha um Endereço pelo ID: ");
+        String[] cabecalho = {"ID", "Cidade", "Bairro", "Número"};
+        String[] linhas = new String[EnderecoController.contarRegistros()];
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        int cont = 0;
+
         for (Endereco endereco : enderecos){
-            System.out.println(endereco.getIdEndereco() + ": " + endereco.getCidade() + ": " + endereco.getBairro() + ": " + endereco.getCidade());
+            String[] linha = {endereco.getIdEndereco()+"", endereco.getCidade(), endereco.getBairro(), endereco.getNumero()+""};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
 
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+       
+        System.out.print("Escolha um Endereço pelo ID: ");
         int idEndereco = scanner.nextInt();
+        
         Endereco enderecoSelecionado = null;
         for (Endereco endereco : enderecos) {
             if (endereco.getIdEndereco() == idEndereco) {
@@ -289,13 +302,24 @@ public class Menu {
             return;
         }
 
-        System.out.println("Escolha um Cinema pelo ID: ");
+
+        String[] cabecalho = {"ID", "Nome Cinema", "Cidade"};
+        String[] linhas = new String[CinemaController.contarRegistros()];
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        int cont = 0;
+
         for (Cinema cinema : cinemas){
-            System.out.println(cinema.getIdCinema() + ": " + cinema.getNomeCinema());
+            String[] linha = {cinema.getIdCinema()+"", cinema.getNomeCinema(), cinema.getEndereco().getCidade()};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
 
-        System.out.print("Digite aqui: ");
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+
+        System.out.print("Escolha um Cinema pelo ID: ");
         int idCinema = scanner.nextInt();
+        
         Cinema cinemaSelecionado = null;
         for (Cinema cinema : cinemas) {
             if (cinema.getIdCinema() == idCinema) {
@@ -322,13 +346,23 @@ public class Menu {
             return;
         }
     
-        System.out.println("Escolha um Filme pelo ID:");
+        String[] cabecalho = {"ID", "Nome Filme", "Preço (R$)"};
+        String[] linhas = new String[FilmeController.contarRegistros()];
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        int cont = 0;
+
         for (Filme filme : filmes) {
-            System.out.println(filme.getIdFilme() + ": " + filme.getNomeFilme());
+            String[] linha = {filme.getIdFilme()+"", filme.getNomeFilme(), filme.getPreco()+""};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
-    
-        System.out.print("Digite aqui: ");
+
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+
+        System.out.print("Escolha um Filme pelo ID:");
         int idFilme = scanner.nextInt();
+
         Filme filmeSelecionado = null;
         for (Filme filme : filmes) {
             if (filme.getIdFilme() == idFilme) {
@@ -353,14 +387,27 @@ public class Menu {
             System.out.println("Nenhuma sessão disponível. Por favor, insira uma sessão antes.");
             return;
         }
+
+        String[] cabecalho = {"ID", "Nome Cinema", "Nome Filme", "Horário"};
+        String[] linhas = new String[SecaoController.contarRegistros()];
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        int cont = 0;
     
-        System.out.println("Escolha uma Sessão pelo ID:");
         for (Secao secao : secoes) {
-            System.out.println(secao.getIdSecao() + ": " + secao.getCinema().getNomeCinema() + " - " + secao.getFilme().getNomeFilme() + " - " + secao.getHorario());
+            LocalDateTime localDateTime = secao.getHorario().toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            String[] linha = {secao.getIdSecao()+"", secao.getCinema().getNomeCinema(), secao.getFilme().getNomeFilme(), localDateTime.format(formatter)};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
-    
-        System.out.print("Digite aqui: ");
+
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+        
+        System.out.print("Escolha uma Sessão pelo ID:");
         int idSecao = scanner.nextInt();
+
         Secao secaoSelecionada = null;
         for (Secao secao : secoes) {
             if (secao.getIdSecao() == idSecao) {
@@ -386,13 +433,26 @@ public class Menu {
             return;
         }
         
-        System.out.println("Escolha uma Venda pelo ID:");
+        String[] cabecalho = {"ID", "Nome do Cliente", "Horário", "Assento"};
+        String[] linhas = new String[VendaController.contarRegistros()];
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        int cont = 0;
+
         for (Venda venda : vendas) {
-            System.out.println(venda.getIdVenda() + ": Cliente: " + venda.getNomeCliente() + ", Sessão: " + venda.getSecao().getHorario() + ", Assento: " + venda.getAssento());
+            LocalDateTime localDateTime = venda.getSecao().getHorario().toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            String[] linha = {venda.getIdVenda()+"", venda.getNomeCliente(), localDateTime.format(formatter), venda.getAssento()+""};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
-        
-        System.out.print("Digite aqui: ");
-        int idVenda = scanner.nextInt();
+
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+
+        System.out.println("Escolha uma Venda pelo ID:");
+        int idVenda = scanner.nextInt();        
+
         Venda vendaSelecionada = null;
         for (Venda venda : vendas) {
             if (venda.getIdVenda() == idVenda) {
@@ -491,7 +551,6 @@ public class Menu {
             return;
         }
 
-        
         int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
         String[] cabecalho = {"ID", "Nome Filme", "Preço"};
         String[] linhas = new String[FilmeController.contarRegistros()];
@@ -519,9 +578,10 @@ public class Menu {
         scanner.nextLine();
         filmeSelecionado.setNomeFilme(scanner.nextLine());
 
-        scanner.nextLine();
         System.out.print("Preço do Filme: ");
-        filmeSelecionado.setPreco(scanner.nextDouble());
+        double preco = scanner.nextDouble();
+
+        filmeSelecionado.setPreco(preco);
 
         FilmeController.atualizarRegistro(filmeSelecionado);
     }
@@ -532,10 +592,25 @@ public class Menu {
             return;
         }
 
+        String[] cabecalho = {"ID", "Horário", "Cinema", "Filme"};
+        String[] linhas = new String[SecaoController.contarRegistros()];
+        int tamanho = MenuFormatter.getNumEspacamentoUni();
+        int cont = 0;
+
         for (Secao secao : SecaoController.listarTodosRegistros()){
-            System.out.println("ID: " + secao.getIdSecao() + ", Horário: " + secao.getHorario() + ", Quantidade Assentos: " + secao.getQtdAssentos()
-                            + ", ID Cinema: " + secao.getCinema().getIdCinema() + ", ID Filme: " + secao.getFilme().getIdFilme());
+            LocalDateTime localDateTime = secao.getHorario().toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            String[] linha = {secao.getIdSecao()+"", localDateTime.format(formatter),
+                            secao.getCinema().getNomeCinema(), secao.getFilme().getNomeFilme()};
+   
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
+
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+
         System.out.print("Escolha a Seção que deseja alterar pelo ID: ");
         int idSecao = scanner.nextInt();
         
@@ -546,6 +621,7 @@ public class Menu {
         }
 
         System.out.print("Horario do Filme (formato: yyyy-MM-dd HH:mm:ss): ");
+        scanner.nextLine();
         String horarioStr = scanner.nextLine();
         secaoSelecionado.setHorario(Timestamp.valueOf(horarioStr));
 

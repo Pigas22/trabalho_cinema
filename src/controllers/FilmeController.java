@@ -113,9 +113,9 @@ public class FilmeController {
             try (Connection conn = Database.conectar();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            pstmt.setInt(1, filme.getIdFilme());
-            pstmt.setString(2, filme.getNomeFilme());
-            pstmt.setDouble(3, filme.getPreco());
+                pstmt.setString(1, filme.getNomeFilme());
+                pstmt.setDouble(2, filme.getPreco());
+                pstmt.setInt(3, filme.getIdFilme());
 
             pstmt.executeUpdate();
 

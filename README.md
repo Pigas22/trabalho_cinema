@@ -4,6 +4,8 @@ A idealização do projeto foi proposta pelo professor [Howard Roatti](https://w
 
 Para esse projeto, foi escolhido como tema pela equipe, o Sistema de Gerenciamento de Seções de Diversos Cinemas.
 
+#### 📸 Link do vídeo demonstrativo no youtube: **<u>https://youtu.be/GwyLAv1S0tE?feature=shared</u>**
+
 #### 🛠️ Tecnologias e Ferramentas utilizadas no Projeto:
 <div align="center">
 

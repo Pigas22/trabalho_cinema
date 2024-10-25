@@ -169,7 +169,7 @@ public class FilmeController {
 
     public static LinkedList<Filme> listarTodosRegistros () {
         LinkedList<Filme> listaResgistros = new LinkedList<Filme>();
-        String sql = "SELECT * FROM filme";
+        String sql = "SELECT * FROM filme ORDER BY id_filme ASC";
 
         int idFilme;
         String nomeFilme;

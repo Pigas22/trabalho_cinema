@@ -141,7 +141,7 @@ public class CinemaController {
 
     public static LinkedList<Cinema> listarTodosRegistros () {
         LinkedList<Cinema> listaCinemas = new LinkedList<>();
-        String sql = "SELECT * FROM cinema";
+        String sql = "SELECT * FROM cinema ORDER BY id_cinema ASC";
         
         try (Connection conn = Database.conectar();
              Statement stmt = conn.createStatement();

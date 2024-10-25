@@ -83,7 +83,7 @@ public class VendaController {
     }
 
     public static boolean atualizarVenda (int idVenda, String nomeCliente, int assento, String formaPagamento, Secao secao) {
-        String sql = "UPDATE venda SET nome_cliente = ?, assento = ?, forma_pagamento = ?, id_secao = ? WHERE id_endereco = ?;";
+        String sql = "UPDATE venda SET nome_cliente = ?, assento = ?, forma_pagamento = ?, id_secao = ? WHERE id_venda = ?;";
 
         if (VendaController.existeVenda(idVenda)) {
             try (Connection conn = Database.conectar();
@@ -111,7 +111,7 @@ public class VendaController {
     }
 
     public static boolean atualizarVenda (Venda venda) {
-        String sql = "UPDATE venda SET nome_cliente = ?, assento = ?, forma_pagamento = ?, id_secao = ? WHERE id_endereco = ?;";
+        String sql = "UPDATE venda SET nome_cliente = ?, assento = ?, forma_pagamento = ?, id_secao = ? WHERE id_venda = ?;";
 
         if (VendaController.existeVenda(venda.getIdVenda())) {
             try (Connection conn = Database.conectar();
@@ -180,7 +180,7 @@ public class VendaController {
 
     public static LinkedList<Venda> listarTodosRegistros () {
         LinkedList<Venda> listaResgistros = new LinkedList<Venda>();
-        String sql = "SELECT * FROM venda";
+        String sql = "SELECT * FROM venda ORDER BY id_venda ASC";
 
         int idVenda, assento, idSecao;
         String nomeCliente, formaPagamento;

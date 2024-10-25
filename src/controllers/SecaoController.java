@@ -180,7 +180,7 @@ public class SecaoController {
 
     public static LinkedList<Secao> listarTodosRegistros () {
         LinkedList<Secao> listaResgistros = new LinkedList<Secao>();
-        String sql = "SELECT * FROM secao";
+        String sql = "SELECT * FROM secao ORDER BY id_secao ASC";
 
         int idSecao, idCinema, idFilme, qtdAssentos;
         Timestamp horairo;

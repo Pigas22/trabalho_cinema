@@ -255,8 +255,8 @@ public class Menu {
 
         
         int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
-        String[] cabecalho = {"ID", "Nome Filme", "Horário", "Cinema", "Cidade"};
-        String[] linhas = new String[FilmeController.contarRegistros()];
+        String[] cabecalho = {"ID", "Nome Filme", "Horário", "Cinema"};
+        String[] linhas = new String[SecaoController.contarRegistros()];
         int cont = 0;
 
         LocalDateTime localDateTime;
@@ -267,7 +267,7 @@ public class Menu {
             formatter = DateTimeFormatter.ofPattern("HH:mm");
 
             String[] linha = {secao.getIdSecao()+"", secao.getFilme().getNomeFilme(), localDateTime.format(formatter),
-                            secao.getCinema().getNomeCinema(), secao.getCinema().getEndereco().getCidade()};
+                            secao.getCinema().getNomeCinema()};
             linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
             cont++;
             
@@ -766,6 +766,10 @@ public class Menu {
 
         System.out.print("Assento: ");
         vendaSelacionada.setAssento(scanner.nextInt());
+
+        System.out.print("Forma de Pagamento: ");
+        scanner.nextLine();
+        vendaSelacionada.setFormaPagamento(scanner.nextLine());
 
         System.out.print("ID da Seção: ");
         vendaSelacionada.setSecao(SecaoController.buscarRegistroPorId(scanner.nextInt()));

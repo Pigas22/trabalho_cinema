@@ -180,7 +180,7 @@ public class EnderecoController {
 
     public static LinkedList<Endereco> listarTodosRegistros () {
         LinkedList<Endereco> listaResgistros = new LinkedList<Endereco>();
-        String sql = "SELECT * FROM endereco";
+        String sql = "SELECT * FROM endereco ORDER BY id_endereco ASC";
 
         int idEndereco, numero;
         String rua, bairro, cidade, uf;

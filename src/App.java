@@ -50,15 +50,17 @@ public class App {
                 String relatorio = "";
 
                 MenuFormatter.limparTerminal();
-                MenuFormatter.titulo("RELATÓRIO");
                 switch (opcaoRelatorio) {
                     case 1:
+                        MenuFormatter.titulo("RELATÓRIO");
                         relatorio = Relatorio.listarCinemaEndereco();
                         break;
                     case 2:
+                        MenuFormatter.titulo("RELATÓRIO");
                         relatorio = Relatorio.listarInformacoes();
                         break;
                     case 3:
+                        MenuFormatter.titulo("RELATÓRIO");
                         relatorio = Relatorio.listarSomaIngressos();
                         break;
                     default:

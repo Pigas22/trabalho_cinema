@@ -2,9 +2,9 @@
 INSERT INTO endereco VALUES
     (1, '100',  'Rua das Flores',       'Centro',     'Sao Paulo',      'SP'),
     (2, '200',  'Avenida Brasil',       'Copacabana', 'Rio de Janeiro', 'RJ'),
-    (3, '300',  'Rua XV de Novembro',   'Centro',     'Curitiba',       'PR'),
+    (3, '300',  'XV de Novembro',   'Centro',     'Curitiba',       'PR'),
     (4, '50',   'Praça da Se',          'Se',         'Sao Paulo',      'SP'),
-    (5, '150',  'Rua Sete de Setembro', 'Centro',     'Porto Alegre',   'RS'),
+    (5, '150',  'Sete de Setembro', 'Centro',     'Porto Alegre',   'RS'),
     (6, '1000', 'Avenida Paulista',     'Bela Vista', 'Sao Paulo',      'SP');
 
 -- Inserts para a tabela filme

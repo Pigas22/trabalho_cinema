@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
-
+import java.io.IOException;
 import java.sql.Timestamp;
 
 public class Menu {
@@ -113,10 +113,21 @@ public class Menu {
             return;
         }
         
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        String[] cabecalho = {"ID", "Rua", "Cidade", "Uf"};
+        String[] linhas = new String[EnderecoController.contarRegistros()];
+        int cont = 0;
+        
         for (Endereco endereco : enderecos) {
-            System.out.println(endereco.getIdEndereco() + ": " + endereco.getRua() + ", " + endereco.getBairro() + ", " + endereco.getCidade() + " - " + endereco.getUf());
+            String[] linha = {endereco.getIdEndereco()+"", endereco.getRua(), endereco.getCidade(), 
+                            endereco.getUf()};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
         
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+
         System.out.print("Escolha um endereço pelo ID: ");
         int idEndereco = scanner.nextInt();
         Endereco enderecoSelecionado = EnderecoController.buscarRegistroPorId(idEndereco);
@@ -133,10 +144,11 @@ public class Menu {
 
         MenuFormatter.titulo("INSERIR - FILME");
 
-        System.out.println("Digite o nome do Filme: ");
+        System.out.print("Digite o nome do Filme: ");
         String nome = scanner.nextLine();
-        System.out.println("");
-        System.out.println("Digite o preço do Filme: ");
+        
+        scanner.reset();
+        System.out.print("Digite o preço do Filme (Ex: 99,99): ");
         Double preco = scanner.nextDouble();
 
         FilmeController.inserirRegistro(new Filme(nome, preco));
@@ -145,7 +157,7 @@ public class Menu {
 
     }
 
-    public static void menuInserirSecao() {
+    public static void menuInserirSecao() throws IOException, InterruptedException {
         MenuFormatter.titulo("INSERIR - SECAO");
 
         List<Cinema> cinemas = CinemaController.listarTodosRegistros();
@@ -160,11 +172,21 @@ public class Menu {
             return;
         }
     
-        System.out.println("Escolha um cinema pelo ID: ");
-        for (Cinema cinema : cinemas) {
-            System.out.println(cinema.getIdCinema() + ": " + cinema.getNomeCinema());
-        }
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        String[] cabecalho = {"ID", "Cinema", "Cidade"};
+        String[] linhas = new String[CinemaController.contarRegistros()];
+        int cont = 0;
     
+        for (Cinema cinema : cinemas) {
+            String[] linha = {cinema.getIdCinema()+"", cinema.getNomeCinema(), cinema.getEndereco().getCidade()};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
+        }
+        
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+        
+        System.out.print("Escolha um cinema pelo ID: ");
         int idCinema = scanner.nextInt();
         Cinema cinemaSelecionado = null;
         for (Cinema cinema : cinemas) {
@@ -177,12 +199,24 @@ public class Menu {
             MenuFormatter.msgTerminalERROR("ID de cinema inválido.");
             return;
         }
+
+        MenuFormatter.delay(1);
+        MenuFormatter.limparTerminal();
+
+        String[] cabecalho2 = {"ID", "Nome Filme"};
+        String[] linhas2 = new String[FilmeController.contarRegistros()];
+        cont = 0;
     
-        System.out.println("Escolha um filme pelo ID: ");
         for (Filme filme : filmes) {
-            System.out.println(filme.getIdFilme() + ": " + filme.getNomeFilme());
+            String[] linha = {filme.getIdFilme()+"", filme.getNomeFilme()};
+            linhas2[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;            
         }
-    
+        
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho2, linhas2, tamanho));
+        MenuFormatter.linha();
+        
+        System.out.print("Escolha um filme pelo ID: ");
         int idFilme = scanner.nextInt();
         Filme filmeSelecionado = null;
         for (Filme filme : filmes) {
@@ -196,12 +230,12 @@ public class Menu {
             return;
         }
     
-        System.out.println("Digite o horário da seção (formato: yyyy-MM-dd HH:mm:ss): ");
+        System.out.print("Digite o horário da seção (formato: yyyy-MM-dd HH:mm:ss): ");
         scanner.nextLine(); // Consumir a nova linha
         String horarioStr = scanner.nextLine();
         Timestamp horario = Timestamp.valueOf(horarioStr);
 
-        System.out.println("Digite a quantidade de assentos: ");
+        System.out.print("Digite a quantidade de assentos: ");
         int qtd_assento = scanner.nextInt();
     
         //insira no banco de dados
@@ -219,11 +253,30 @@ public class Menu {
             return;
         }
 
-        System.out.println("Escolha uma seção pelo ID: ");
-        for (Secao secao : secoes) {
-            System.out.println(secao.getIdSecao() + ": " + secao.getFilme().getNomeFilme() + ": " + secao.getHorario() + ": " + secao.getCinema().getEndereco().getCidade());
-        }
+        
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        String[] cabecalho = {"ID", "Nome Filme", "Horário", "Cinema", "Cidade"};
+        String[] linhas = new String[FilmeController.contarRegistros()];
+        int cont = 0;
 
+        LocalDateTime localDateTime;
+        DateTimeFormatter formatter;
+
+        for (Secao secao : secoes) {
+            localDateTime = secao.getHorario().toLocalDateTime();
+            formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            String[] linha = {secao.getIdSecao()+"", secao.getFilme().getNomeFilme(), localDateTime.format(formatter),
+                            secao.getCinema().getNomeCinema(), secao.getCinema().getEndereco().getCidade()};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
+            
+        }
+        
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+        
+        System.out.print("Escolha uma seção pelo ID: ");
         int idSecao = scanner.nextInt();
         scanner.nextLine(); // Consumir a nova linha
 
@@ -240,11 +293,11 @@ public class Menu {
             return; // Adicionado para interromper a execução
         }
 
-        System.out.println("Digite o nome da pessoa: ");
+        System.out.print("Digite o nome da pessoa: ");
         String nome = scanner.nextLine();
-        System.out.println("Digite o assento: ");
+        System.out.print("Digite o assento: ");
         int assento = scanner.nextInt();
-        System.out.println("Digite a forma de pagamento: ");
+        System.out.print("Digite a forma de pagamento: ");
         String formaPagamento = scanner.nextLine();
 
         VendaController.inserirVenda(new Venda(nome, assento, formaPagamento, secaoSelecionado));
@@ -342,7 +395,7 @@ public class Menu {
 
         List<Filme> filmes = FilmeController.listarTodosRegistros();
         if (filmes.isEmpty()) {
-            System.out.println("Nenhum filme disponível. Por favor, insira um filme antes.");
+            MenuFormatter.msgTerminalERROR("Nenhum filme disponível. Por favor, insira um filme antes.");
             return;
         }
     
@@ -371,7 +424,7 @@ public class Menu {
         }
     
         if (filmeSelecionado == null) {
-            System.out.println("ID de filme inválido.");
+            MenuFormatter.msgTerminalERROR("ID de filme inválido.");
             return;
         }
     
@@ -384,7 +437,7 @@ public class Menu {
 
         List<Secao> secoes = SecaoController.listarTodosRegistros();
         if (secoes.isEmpty()) {
-            System.out.println("Nenhuma sessão disponível. Por favor, insira uma sessão antes.");
+            MenuFormatter.msgTerminalERROR("Nenhuma sessão disponível. Por favor, insira uma sessão antes.");
             return;
         }
 
@@ -392,12 +445,16 @@ public class Menu {
         String[] linhas = new String[SecaoController.contarRegistros()];
         int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
         int cont = 0;
+
+        LocalDateTime localDateTime;
+        DateTimeFormatter formatter;
     
         for (Secao secao : secoes) {
-            LocalDateTime localDateTime = secao.getHorario().toLocalDateTime();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            localDateTime = secao.getHorario().toLocalDateTime();
+            formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-            String[] linha = {secao.getIdSecao()+"", secao.getCinema().getNomeCinema(), secao.getFilme().getNomeFilme(), localDateTime.format(formatter)};
+            String[] linha = {secao.getIdSecao()+"", secao.getCinema().getNomeCinema(), 
+                        secao.getFilme().getNomeFilme(), localDateTime.format(formatter)};
             linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
             cont++;
         }
@@ -416,7 +473,7 @@ public class Menu {
         }
     
         if (secaoSelecionada == null) {
-            System.out.println("ID de sessão inválido.");
+            MenuFormatter.msgTerminalERROR("ID de sessão inválido.");
             return;
         }
     
@@ -429,7 +486,7 @@ public class Menu {
 
         List<Venda> vendas = VendaController.listarTodosRegistros();
         if (vendas.isEmpty()) {
-            System.out.println("Nenhuma venda disponível. Por favor, insira uma venda antes.");
+            MenuFormatter.msgTerminalERROR("Nenhuma venda disponível. Por favor, insira uma venda antes.");
             return;
         }
         
@@ -438,9 +495,12 @@ public class Menu {
         int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
         int cont = 0;
 
+        LocalDateTime localDateTime;
+        DateTimeFormatter formatter;
+
         for (Venda venda : vendas) {
-            LocalDateTime localDateTime = venda.getSecao().getHorario().toLocalDateTime();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            localDateTime = venda.getSecao().getHorario().toLocalDateTime();
+            formatter = DateTimeFormatter.ofPattern("HH:mm");
 
             String[] linha = {venda.getIdVenda()+"", venda.getNomeCliente(), localDateTime.format(formatter), venda.getAssento()+""};
             linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
@@ -450,7 +510,7 @@ public class Menu {
         System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
         MenuFormatter.linha();
 
-        System.out.println("Escolha uma Venda pelo ID:");
+        System.out.print("Escolha uma Venda pelo ID:");
         int idVenda = scanner.nextInt();        
 
         Venda vendaSelecionada = null;
@@ -461,7 +521,7 @@ public class Menu {
         }
     
         if (vendaSelecionada == null) {
-            System.out.println("ID de venda inválido.");
+            MenuFormatter.msgTerminalERROR("ID de venda inválido.");
             return;
         }
     
@@ -475,10 +535,19 @@ public class Menu {
             return;
         }
 
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        String[] cabecalho = {"ID", "Nome", "ID Endereço", "Cidade"};
+        String[] linhas = new String[CinemaController.contarRegistros()];
+        int cont = 0;
+
         for (Cinema cinema : CinemaController.listarTodosRegistros()){
-            System.out.println("ID: " + cinema.getIdCinema() + ", Nome Cinema: " + cinema.getNomeCinema() + ", ID do Endereço: " 
-                            + cinema.getEndereco().getIdEndereco() + ", Cidade: " + cinema.getEndereco().getCidade());
+            String[] linha = {cinema.getIdCinema()+"", cinema.getNomeCinema()+"",
+                        cinema.getEndereco().getIdEndereco()+"", cinema.getEndereco().getCidade()};
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
+        
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
         MenuFormatter.linha();
 
         System.out.print("Escolha o Cinema que deseja alterar pelo ID: ");
@@ -486,7 +555,7 @@ public class Menu {
         
         Cinema cinemaSelecionado = CinemaController.buscarRegistroPorId(idEndereco);
         if (cinemaSelecionado == null) {
-            System.out.println("ID de Cinema inválido.");
+            MenuFormatter.msgTerminalERROR("ID de Cinema inválido.");
             return;
         }
 
@@ -511,10 +580,20 @@ public class Menu {
             return;
         }
 
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        String[] cabecalho = {"ID", "Número", "Rua", "Bairro", "Cidade", "UF"};
+        String[] linhas = new String[EnderecoController.contarRegistros()];
+        int cont = 0;
+
         for (Endereco endereco : EnderecoController.listarTodosRegistros()){
-            System.out.println("ID: " + endereco.getIdEndereco() + ", Número: " + endereco.getNumero() + ", Rua: " + endereco.getRua() 
-                        + ", Bairro: " + endereco.getBairro() + ", Cidade: " + endereco.getCidade() + ", UF: " + endereco.getUf());
+            String[] linha = {endereco.getIdEndereco()+"", endereco.getNumero()+"", endereco.getRua(),
+                        endereco.getBairro(), endereco.getCidade(), endereco.getUf()};
+
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
+
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
         MenuFormatter.linha();
 
         System.out.print("Escolha o Endereço que deseja alterar pelo ID: ");
@@ -522,7 +601,7 @@ public class Menu {
         
         Endereco enderecoSelecionado = EnderecoController.buscarRegistroPorId(idEndereco);
         if (enderecoSelecionado == null) {
-            System.out.println("ID de Endereço inválido.");
+            MenuFormatter.msgTerminalERROR("ID de Endereço inválido.");
             return;
         }
 
@@ -570,7 +649,7 @@ public class Menu {
         
         Filme filmeSelecionado = FilmeController.buscarRegistroPorId(idFilme);
         if (filmeSelecionado == null) {
-            System.out.println("ID de Filme inválido.");
+            MenuFormatter.msgTerminalERROR("ID de Filme inválido.");
             return;
         }
 
@@ -597,9 +676,12 @@ public class Menu {
         int tamanho = MenuFormatter.getNumEspacamentoUni();
         int cont = 0;
 
+        LocalDateTime localDateTime;
+        DateTimeFormatter formatter;
+
         for (Secao secao : SecaoController.listarTodosRegistros()){
-            LocalDateTime localDateTime = secao.getHorario().toLocalDateTime();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            localDateTime = secao.getHorario().toLocalDateTime();
+            formatter = DateTimeFormatter.ofPattern("HH:mm");
 
             String[] linha = {secao.getIdSecao()+"", localDateTime.format(formatter),
                             secao.getCinema().getNomeCinema(), secao.getFilme().getNomeFilme()};
@@ -616,7 +698,7 @@ public class Menu {
         
         Secao secaoSelecionado = SecaoController.buscarRegistroPorId(idSecao);
         if (secaoSelecionado == null) {
-            System.out.println("ID de Seção inválido.");
+            MenuFormatter.msgTerminalERROR("ID de Seção inválido.");
             return;
         }
 
@@ -653,16 +735,28 @@ public class Menu {
             return;
         }
 
+        int tamanho = MenuFormatter.getNumEspacamentoUni()+2;
+        String[] cabecalho = {"ID", "Cliente", "Assento", "Forma Pagamento", "ID Seção"};
+        String[] linhas = new String[VendaController.contarRegistros()];
+        int cont = 0;
+
         for (Venda venda : VendaController.listarTodosRegistros()){
-            System.out.println("ID: " + venda.getIdVenda() + ", Cliente: " + venda.getNomeCliente() + ", Assento: " + venda.getAssento()
-                            + ", Forma de Pagamento: " + venda.getFormaPagamento() + ", ID Seção: " + venda.getSecao().getIdSecao());
+            String[] linha = {venda.getIdVenda()+"", venda.getNomeCliente(), venda.getAssento()+"",
+                        venda.getFormaPagamento(), venda.getSecao().getIdSecao()+""};
+
+            linhas[cont] = MenuFormatter.criarLinhaTabela(linha, tamanho);
+            cont++;
         }
+
+        System.out.println(MenuFormatter.criaTabelaCompleta(cabecalho, linhas, tamanho));
+        MenuFormatter.linha();
+
         System.out.print("Escolha a Venda que deseja alterar pelo ID: ");
         int idVenda = scanner.nextInt();
         
         Venda vendaSelacionada = VendaController.buscarVendaPorId(idVenda);
         if (vendaSelacionada == null) {
-            System.out.println("ID de Venda inválido.");
+            MenuFormatter.msgTerminalERROR("ID de Venda inválido.");
             return;
         }
 
